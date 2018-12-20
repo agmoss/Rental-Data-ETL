@@ -4,6 +4,7 @@ Query the rentfaster.ca API and store the cleaned results in a MySQL database.
 
 This is a work in progress.
 
+
 ## About
 
 Each rentfaster.ca webpage exposes a JSON API of the page content. Using pagination, get requests are sent to each individual API. The request responses are converted to dataframe objects and cleaned of inconsistencies and bad data. The cleaned data is then inserted into a MySQL database for storage and analysis.
@@ -24,6 +25,7 @@ https://www.rentfaster.ca/ab/calgary/rentals/?beds=&baths=&type=&price_range_adv
 as a browser page. 
 
 
+
 ### Prerequisites
 
 Dependencies can be installed via:
@@ -32,19 +34,23 @@ Dependencies can be installed via:
 pip install requirements.txt
 ```
 
+
 ## Built With
 
 * [Requests](http://docs.python-requests.org/en/master/) - HTTP library 
 * [Pandas](https://www.crummy.com/software/BeautifulSoup/) - Dataframe object
 * [mysql-connector-python](https://pypi.org/project/mysql-connector-python/) - MySQL driver written in python
 
+
 ## Contributing
 
 Feedback and constructive criticism is more than welcome
 
-## Authors
+
+## Author
 
 * **Andrew Moss** - *Creator* - [agmoss](https://github.com/agmoss)
+
 
 ## License
 
