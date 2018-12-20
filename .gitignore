@@ -1,0 +1,8 @@
+config.json
+scratch.py
+/env
+.vscode
+__pycache__
+*.log
+.idea/
+.pytest_cache
