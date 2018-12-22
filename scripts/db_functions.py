@@ -1,5 +1,6 @@
 import logging
 import mysql.connector
+import sys
 
 
 def db_config():
@@ -21,37 +22,39 @@ def db_config():
 def connect():
     """ Connect to MySQL database """
 
-    try:
-        host, user, password, db = db_config()
+    while True:
 
-        conn = mysql.connector.connect(host=host,
-                                       database=db,
-                                       user=user,
-                                       password=password)
+        try:
+            host, user, password, db = db_config()
 
-    except mysql.connector.errors.ProgrammingError as e:
+            conn = mysql.connector.connect(host=host,
+                                        database=db,
+                                        user=user,
+                                        password=password)
 
-        if e.errno == 1049:  # Database not created yet
-            create_db()
-            connect()
-        elif e.errno == 1045:
-            logging.info("Access denied: password or db name incorrect")
+        except mysql.connector.errors.ProgrammingError as e:
+
+            if e.errno == 1049:  # Database not created yet
+                create_db()
+                connect()
+            elif e.errno == 1045:
+                logging.info("FATAL: Access denied: password or db name incorrect")
+                logging.info(e)
+                sys.exit(-1)
+            else:
+                logging.info(e)
+                raise
+
+        except mysql.connector.errors.InterfaceError as e:
             logging.info(e)
             raise
+
+        except Exception as ex:
+            logging.info(ex)
+            raise
+
         else:
-            logging.info(e)
-            raise
-
-    except mysql.connector.errors.InterfaceError as e:
-        logging.info(e)
-        raise
-
-    except Exception as ex:
-        logging.info(ex)
-        raise
-
-    else:
-        return conn
+            return conn
 
 
 def create_db():
@@ -92,6 +95,8 @@ def create_table(conn):
             "slide VARCHAR(255), sq_feet VARCHAR(255), status VARCHAR(255), thumb VARCHAR(255), thumb2 VARCHAR(255), title VARCHAR(255),"
             "type VARCHAR(255),	userId VARCHAR(255), utilities_included VARCHAR(255), website VARCHAR(255))")  # TODO: construct a proper statement
 
+        logging.info("Table created")
+
     except Exception as ex:
         logging.info(ex)
         raise
@@ -100,23 +105,28 @@ def create_table(conn):
 def insert(db, val, sql):
     """Insert the list of records"""
 
-    try:
-        my_cursor = db.cursor()
-        my_cursor.execute(sql, val)
-        db.commit()
+    while True:
 
-    except mysql.connector.errors.ProgrammingError as e:
+        try:
+            my_cursor = db.cursor()
+            my_cursor.execute(sql, val)
+            db.commit()
 
-        if e.errno == 1146:  # Database table not created yet
-            create_table(db)
-        else:
-            logging.info(e)
+        except mysql.connector.errors.ProgrammingError as e:
+
+            if e.errno == 1146:  # Database table not created yet
+                create_table(db)
+            else:
+                logging.info(e)
+                raise
+
+        except Exception as ex:  # TODO Expand on exception handling (there should be some mysql error objects to access)
+            logging.info(ex)
+            print(type(ex))
             raise
 
-    except Exception as ex:  # TODO Expand on exception handling (there should be some mysql error objects to access)
-        logging.info(ex)
-        print(type(ex))
-        raise
+        else:
+            break
 
 
 def sql_writer_insert(table_name, header_list):
