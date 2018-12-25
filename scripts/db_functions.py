@@ -87,13 +87,13 @@ def create_table(conn):
             raise ("Table already in existence")
 
         mycursor.execute(
-            "CREATE TABLE rental_data (address VARCHAR(255), address_hidden VARCHAR(255), availability VARCHAR(255), avdate VARCHAR(255),"
-            "baths VARCHAR(255), bedrooms VARCHAR(255), cats VARCHAR(255), city VARCHAR(255), community VARCHAR(255), den VARCHAR(255), dogs VARCHAR(255),"
-            "email VARCHAR(255), id VARCHAR(255), intro VARCHAR(255), latitude VARCHAR(255), link VARCHAR(255), location VARCHAR(255), longitude VARCHAR(255),"
+            "CREATE TABLE rental_data (address VARCHAR(255), address_hidden INT, availability VARCHAR(255), avdate VARCHAR(255),"
+            "baths INT, bedrooms INT, cats INT, city VARCHAR(255), community VARCHAR(255), den VARCHAR(255), dogs INT,"
+            "email INT, id INT, intro VARCHAR(255), latitude DECIMAL, link VARCHAR(255), location VARCHAR(255), longitude DECIMAL,"
             "marker VARCHAR(255), phone VARCHAR(255), phone_2 VARCHAR(255), preferred_contact VARCHAR(255),"
-            "price VARCHAR(255), province VARCHAR(255), quadrant VARCHAR(255), ref_id VARCHAR(255), rented VARCHAR(255),"
-            "slide VARCHAR(255), sq_feet VARCHAR(255), status VARCHAR(255), thumb VARCHAR(255), thumb2 VARCHAR(255), title VARCHAR(255),"
-            "type VARCHAR(255),	userId VARCHAR(255), utilities_included VARCHAR(255), website VARCHAR(255))")  # TODO: construct a proper statement
+            "price DOUBLE, province VARCHAR(255), quadrant VARCHAR(255), ref_id VARCHAR(255), rented VARCHAR(255),"
+            "slide VARCHAR(255), sq_feet DECIMAL, status VARCHAR(255), thumb VARCHAR(255), thumb2 VARCHAR(255), title VARCHAR(255),"
+            "type VARCHAR(255),	userId INT, utilities_included VARCHAR(255), website VARCHAR(255))") 
 
         logging.info("Table created")
 
