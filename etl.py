@@ -16,8 +16,8 @@ def main():
 
     frames = []
 
-    # Pagination
-    for i in range(2):
+    # Pagination TODO: Page number
+    for i in range(20):
 
         try:
 
@@ -25,6 +25,9 @@ def main():
 
             url = 'https://www.rentfaster.ca/api/search.json?keywords=&proximity_type=location-proximity'
             '&cur_page=' + page + '&beds=&type=&price_range_adv[from]=null&price_range_adv[to]=null&novacancy=0&city_id=1'
+
+            url = 'https://www.rentfaster.ca/api/search.json?keywords=&proximity_type=location-proximity'
+            '&cur_page=?&beds=&type=&price_range_adv[from]=null&price_range_adv[to]=null&novacancy=0&city_id=1'
 
             # Access object
             scr = get.Accessor(url)
@@ -52,6 +55,15 @@ def main():
 
             # TODO: The utilities column has [] around its contents, mysql thinks its a list within a list...
             df.drop(['utilities_included'], axis=1, inplace=True)
+
+            # Clean the data 
+            # Square feet often has unessary characters combined with the numeric value
+            df['sq_feet'].replace(regex=True,inplace=True,to_replace=r'\D',value=r'')
+
+            # In bedrooms, convert "bachelor" to 0
+            df['bedrooms'].replace(inplace=True,to_replace='bachelor',value=0)
+
+            #TODO: add the accessed date for ts style analysis
 
             # Convert to list
             total_data = df.apply(lambda x: x.tolist(), axis=1)
