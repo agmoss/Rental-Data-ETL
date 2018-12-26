@@ -19,6 +19,8 @@ def read_data():
         df = pd.read_sql('SELECT * FROM rental_data', con=conn)
         #print(df.info())
 
+        df.to_csv('test3.csv')
+
         # Not of use for analysis: intro, link, marker, phone, phone_2, preferred_contact, slide, thumb, thumb_2, title, website
 
         df.drop(['intro','link','marker','phone','phone_2','preferred_contact','slide','thumb','thumb2','title','website'],axis = 1,inplace = True)
@@ -39,3 +41,7 @@ def read_data():
         message = template.format(type(ex).__name__, ex.args)
         logging.info(message)
         raise
+
+
+if __name__ == "__main__":
+    read_data()
