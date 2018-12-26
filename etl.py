@@ -15,19 +15,15 @@ def main():
     logging.info('Start')
 
     frames = []
+    i = 0 #Loop counter
 
-    # Pagination TODO: Page number
-    for i in range(20):
+    while True:
 
         try:
 
             page = str(i)
 
-            url = 'https://www.rentfaster.ca/api/search.json?keywords=&proximity_type=location-proximity'
-            '&cur_page=' + page + '&beds=&type=&price_range_adv[from]=null&price_range_adv[to]=null&novacancy=0&city_id=1'
-
-            url = 'https://www.rentfaster.ca/api/search.json?keywords=&proximity_type=location-proximity'
-            '&cur_page=?&beds=&type=&price_range_adv[from]=null&price_range_adv[to]=null&novacancy=0&city_id=1'
+            url = 'https://www.rentfaster.ca/api/search.json?keywords=&proximity_type=location-proximity&cur_page=' + page + '&beds=&type=&price_range_adv[from]=null&price_range_adv[to]=null&novacancy=0&city_id=1'
 
             # Access object
             scr = get.Accessor(url)
@@ -37,11 +33,20 @@ def main():
             # There are multiple keys that can be accessed at this level, we want the listings data
             listings = data['listings']
 
+            # We have reached the last page
+            if len(listings) == 0:
+                break
+            
+            # We have not reached the last page
+            i += 1
+                
             # Convert to a dataframe
             df = json_normalize(listings)
 
             # Append to the list of dataframes
             frames.append(df)
+
+            logging.info("Page " + page + " data obtained")
 
         except Exception as ex:
             template = "An exception of type {0} occurred. Arguments:\n{1!r}"
@@ -63,7 +68,8 @@ def main():
             # In bedrooms, convert "bachelor" to 0
             df['bedrooms'].replace(inplace=True,to_replace='bachelor',value=0)
 
-            #TODO: add the accessed date for ts style analysis
+            #Add the date the data was retrieved
+            df['retrieval_date'] = pd.to_datetime('today').strftime("%m/%d/%Y")
 
             # Convert to list
             total_data = df.apply(lambda x: x.tolist(), axis=1)
@@ -77,7 +83,6 @@ def main():
 
         for row in total_data:
             db.insert(conn, row, statement)  # exception raised if data not inserted
-            logging.info('Record inserted')
 
         conn.close()
 
