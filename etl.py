@@ -4,10 +4,11 @@ from pandas.io.json import json_normalize
 
 from scripts import db_functions as db
 from scripts import get
+from scripts import Rental
 
 
 def main():
-    """Main method of the program"""
+    """Extract, Transform, Load"""
 
     logging.basicConfig(filename='app.log', filemode='w', level=logging.INFO,
                         format='%(asctime)s - %(levelname)s - %(message)s')
@@ -17,7 +18,10 @@ def main():
     frames = []
     i = 0 #Loop counter
 
+ 
     while True:
+
+        i = str(i)
 
         try:
 
@@ -58,9 +62,6 @@ def main():
 
             df = pd.concat(frames, axis=0)
 
-            # TODO: The utilities column has [] around its contents, mysql thinks its a list within a list...
-            df.drop(['utilities_included'], axis=1, inplace=True)
-
             # Clean the data 
             # Square feet often has unessary characters combined with the numeric value
             df['sq_feet'].replace(regex=True,inplace=True,to_replace=r'\D',value=r'')
@@ -71,8 +72,6 @@ def main():
             #Add the date the data was retrieved
             df['retrieval_date'] = pd.to_datetime('today').strftime("%m/%d/%Y")
 
-            # Convert to list
-            total_data = df.apply(lambda x: x.tolist(), axis=1)
 
     try:
         # Connect to the database (exception raised if not connected)
@@ -81,8 +80,19 @@ def main():
         # Prepare a statement
         statement = db.sql_writer_insert('rental_data', list(df))
 
-        for row in total_data:
-            db.insert(conn, row, statement)  # exception raised if data not inserted
+        for index,row in df.iterrows():
+
+            rental = Rental.Rental(row["address"], row["address_hidden"],row["availability"],row["avdate"],row["baths"],
+            row["bedrooms"],row["cats"],row["city"],row["community"],row["den"],row["dogs"], row["email"], row["id"], 
+            row["intro"],row["latitude"],row["link"],row["location"], row["longitude"],row["marker"],row["phone"],row["phone_2"],
+            row["preferred_contact"], row["price"], row["province"], row["quadrant"], row["ref_id"], row["rented"], row["slide"],
+            row["sq_feet"], row["status"],row["thumb"],row["thumb2"], row["title"], row["type"], row["userId"],"NULL", row["website"], 
+            row["retrieval_date"]) 
+
+            # TODO: The utilities column has [] around its contents, mysql thinks its a list within a list...
+            # TODO: Object validation
+
+            db.insert(conn, rental, statement)  # exception NOT raised if data not inserted
 
         conn.close()
 
