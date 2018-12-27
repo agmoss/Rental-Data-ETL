@@ -105,8 +105,11 @@ def create_table(conn):
         raise
 
 
-def insert(db, val, sql):
+def insert(db, obj, sql):
     """Insert the list of records"""
+
+    # Get the member variables as a tuple
+    val = tuple(obj.__dict__.values())
 
     while True:
 
@@ -127,41 +130,29 @@ def insert(db, val, sql):
                 logging.info(e)
                 logging.info(type(e))
                 break #TODO: These errors are caused by nan's in the df. They are just null values. Find a way to insert them as null
+
             else:
-                raise # Unhandled exception
+                logging.info(e)
+                logging.info(type(e))
+                break
 
         except mysql.connector.errors.IntegrityError as ie:
 
             if ie.errno == 1062: # Duplicate entry
 
-                # Get the error message
-                string = str(ie.args[1])
-
-                # Remove the error code 
-                string = string.split(':', 1)[-1]
-
-                # Get the PK that caused the error
-                string = re.findall(r"'(.*?)'", string, re.DOTALL)
-                
-                sql = "UPDATE rental_data SET retrieval_date = %s WHERE ref_id = %s"
-                val = (str(pd.to_datetime('today').strftime("%m/%d/%Y")), string[0])
-
-                my_cursor.execute(sql, val)
-                db.commit()
-
-                logging.info("Duplicate Entry, PK updated " + string[0])
+                logging.info("Duplicate entry")
                 break
                 #TODO: Make this into a real update
 
             else:
                 logging.info('Record unable to be updated')
                 logging.info(ie.args)
-                pass 
+                break
 
         except Exception as ex:  # TODO Expand on exception handling (there should be some mysql error objects to access)
             logging.info(ex)
             logging.info(type(ex))
-            raise #Unhandled exception
+            break
 
         else:
             break
@@ -180,6 +171,8 @@ def sql_writer_insert(table_name, header_list):
     s_list = ','.join(map(str, s_list))
 
     sql = "INSERT INTO " + table_name + " (" + header_list + ") " + "VALUES" + " (" + s_list + ")" 
+
+    print(sql)
 
     return sql
 
