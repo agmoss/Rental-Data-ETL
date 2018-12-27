@@ -172,8 +172,6 @@ def sql_writer_insert(table_name, header_list):
 
     sql = "INSERT INTO " + table_name + " (" + header_list + ") " + "VALUES" + " (" + s_list + ")" 
 
-    print(sql)
-
     return sql
 
 

@@ -18,10 +18,7 @@ def main():
     frames = []
     i = 0 #Loop counter
 
- 
     while True:
-
-        i = str(i)
 
         try:
 
@@ -71,6 +68,8 @@ def main():
 
             #Add the date the data was retrieved
             df['retrieval_date'] = pd.to_datetime('today').strftime("%m/%d/%Y")
+
+            df.to_csv('test19.csv')
 
 
     try:
