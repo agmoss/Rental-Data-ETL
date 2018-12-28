@@ -6,6 +6,8 @@ from scripts import db_functions as db
 from scripts import get
 from scripts import Rental
 
+import re
+
 
 def main():
     """Extract, Transform, Load"""
@@ -41,13 +43,45 @@ def main():
             # We have not reached the last page
             i += 1
                 
-            # Convert to a dataframe
-            df = json_normalize(listings)
-
-            # Append to the list of dataframes
-            frames.append(df)
-
             logging.info("Page " + page + " data obtained")
+
+            # Connect to the database (exception raised if not connected)
+            conn = db.connect()
+
+            # Prepare a statement
+            #statement = db.sql_writer_insert('rental_data', list(df))
+
+            for x in listings:
+
+                try:
+
+                    x['sq_feet'] = re.sub("[^0-9]", "", x['sq_feet'])
+
+                    x['bedrooms'] = x['bedrooms'].replace('bachelor', "0")
+                    
+                    x['retrieval_date'] = pd.to_datetime('today').strftime("%m/%d/%Y")
+
+                    # Prepare a statement
+                    statement = db.sql_writer_insert('rental_data', x.keys())
+                    
+                    # Instantiate Object
+                    rental = Rental.Rental(x["ref_id"],x["userId"], x["id"] ,x["title"] ,x["price"],x["type"] ,
+                    x["sq_feet"],x["availability"],x["avdate"],x["location"] ,x["rented"] ,x["thumb"] , x["thumb2"] ,
+                    x["slide"] , x["link"] ,x["latitude"] , x["longitude"],x["marker"] ,x["address"], x["address_hidden"],  
+                    x["city"] ,x["province"] , x["intro"] , x["community"] ,x["quadrant"] , x["phone"] , x["phone_2"] ,
+                    x["preferred_contact"] ,x["website"], x["email"] , x["status"] , x["bedrooms"] , x["den"] ,x["baths"] , 
+                    x["cats"] , x["dogs"] ,"null", x["retrieval_date"])
+
+
+                    db.insert(conn, rental, statement)  # exception NOT raised if data not inserted
+
+                except Exception as ex:
+                    template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+                    message = template.format(type(ex).__name__, ex.args)
+                    logging.info(message)
+                    continue
+
+            conn.close()
 
         except Exception as ex:
             template = "An exception of type {0} occurred. Arguments:\n{1!r}"
@@ -56,54 +90,9 @@ def main():
             raise
 
         finally:
+            logging.info("Page complete")
 
-            df = pd.concat(frames, axis=0)
-
-            # Clean the data 
-            # Square feet often has unessary characters combined with the numeric value
-            df['sq_feet'].replace(regex=True,inplace=True,to_replace=r'\D',value=r'')
-
-            # In bedrooms, convert "bachelor" to 0
-            df['bedrooms'].replace(inplace=True,to_replace='bachelor',value=0)
-
-            #Add the date the data was retrieved
-            df['retrieval_date'] = pd.to_datetime('today').strftime("%m/%d/%Y")
-
-            df.to_csv('test19.csv')
-
-
-    try:
-        # Connect to the database (exception raised if not connected)
-        conn = db.connect()
-
-        # Prepare a statement
-        statement = db.sql_writer_insert('rental_data', list(df))
-
-        for index,row in df.iterrows():
-
-            rental = Rental.Rental(row["address"], row["address_hidden"],row["availability"],row["avdate"],row["baths"],
-            row["bedrooms"],row["cats"],row["city"],row["community"],row["den"],row["dogs"], row["email"], row["id"], 
-            row["intro"],row["latitude"],row["link"],row["location"], row["longitude"],row["marker"],row["phone"],row["phone_2"],
-            row["preferred_contact"], row["price"], row["province"], row["quadrant"], row["ref_id"], row["rented"], row["slide"],
-            row["sq_feet"], row["status"],row["thumb"],row["thumb2"], row["title"], row["type"], row["userId"],"NULL", row["website"], 
-            row["retrieval_date"]) 
-
-            # TODO: The utilities column has [] around its contents, mysql thinks its a list within a list...
-            # TODO: Object validation
-
-            db.insert(conn, rental, statement)  # exception NOT raised if data not inserted
-
-        conn.close()
-
-    except Exception as ex:
-        template = "An exception of type {0} occurred. Arguments:\n{1!r}"
-        message = template.format(type(ex).__name__, ex.args)
-        logging.info(message)
-        raise
-
-    finally:
-        logging.info("Au revoir")
-
+    logging.info("Au revoir")
 
 if __name__ == "__main__":
     main()

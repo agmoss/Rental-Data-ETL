@@ -1,48 +1,45 @@
 class Rental:
 
-    def __init__(self, address, address_hidden, availability, avdate,
-            baths , bedrooms , cats , city , community , den , dogs ,
-            email , _id , intro , latitude , link , location , longitude,
-            marker , phone , phone_2 , preferred_contact ,
-            price, province , quadrant , ref_id, rented ,
-            slide , sq_feet, status , thumb , thumb2 , title ,
-            _type ,	userId , utilities_included, website, retrieval_date):
+    def __init__(self,ref_id,userId , _id ,title ,price,_type ,sq_feet,availability,avdate,
+            location ,rented ,thumb , thumb2 ,slide , link ,latitude , longitude,marker ,address, address_hidden,  
+            city ,province , intro , community ,quadrant , phone , phone_2 ,preferred_contact ,website, email ,  
+            status , bedrooms , den ,baths ,  cats , dogs ,utilities_included, retrieval_date):
             
-                self.address = address
-                self.address_hidden = address_hidden
+                self.ref_id = ref_id
+                self._id = _id
+                self.userId = userId
+                self.title = title
+                self.price = price
+                self._type = _type
+                self.sq_feet = sq_feet
                 self.availability = availability
                 self.avdate = avdate
-                self.baths = baths
-                self.bedrooms = bedrooms
-                self.cats = cats
-                self.city = city
-                self.community = community
-                self.den = den
-                self.dogs = dogs
-                self.email = email
-                self._id = _id
-                self.into = intro
-                self.latitude = latitude
-                self.link = link
                 self.location = location
+                self.rented = rented
+                self.thumb = thumb
+                self.thumb2 = thumb2
+                self.slide = slide
+                self.link = link
+                self.latitude = latitude
                 self.longitude = longitude
                 self.marker = marker
+                self.address = address
+                self.address_hidden = address_hidden
+                self.city = city
+                self.province  = province
+                self.into = intro
+                self.community = community
+                self.quadrant = quadrant
                 self.phone = phone
                 self.phone_2 = phone_2
                 self.preferred_contact = preferred_contact
-                self.price = price
-                self.province  = province
-                self.quadrant = quadrant
-                self.ref_id = ref_id
-                self.rented = rented
-                self.slide = slide
-                self.sq_feet = sq_feet
-                self.status = status
-                self.thumb = thumb
-                self.thumb2 = thumb2
-                self.title = title
-                self._type = _type
-                self.userId = userId
-                self.utilities_included = utilities_included
                 self.website = website
+                self.email = email
+                self.status = status
+                self.bedrooms = bedrooms
+                self.den = den
+                self.baths = baths
+                self.cats = cats               
+                self.dogs = dogs
+                self.utilities_included = utilities_included             
                 self.retrieval_date = retrieval_date            
