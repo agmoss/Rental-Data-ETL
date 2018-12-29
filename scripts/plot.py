@@ -2,6 +2,9 @@ import plotly.plotly as py
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
+import pandas as pd
+
+import cufflinks as cf
 
 # TODO: Plot class?
 
@@ -24,7 +27,6 @@ def boxplot_price_quadrant(df):
         )
     plt.tight_layout()
     plt.show()
-
 
 
 def distplot_price(df):
@@ -81,3 +83,27 @@ def corr_heat(df):
     plt.tight_layout()
     plt.show()
 
+def bar_community(df):
+
+    pal = sns.color_palette("coolwarm", 7)
+
+    community_count  = df['community'].value_counts()
+    community_count = community_count[:10,]
+    plt.figure(figsize=(10,5))
+
+    sns.barplot(community_count.index, 
+        community_count.values, 
+        palette=pal,
+        alpha=0.8)
+
+    plt.title('Frequency of Rental Listings by Community')
+    plt.ylabel('Number of Occurrences', fontsize=12)
+    plt.xlabel('Community', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+
+if __name__ == "__main__":
+
+    print(__name__)

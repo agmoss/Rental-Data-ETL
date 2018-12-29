@@ -48,9 +48,6 @@ def main():
             # Connect to the database (exception raised if not connected)
             conn = db.connect()
 
-            # Prepare a statement
-            #statement = db.sql_writer_insert('rental_data', list(df))
-
             for x in listings:
 
                 try:
@@ -71,7 +68,6 @@ def main():
                     x["city"] ,x["province"] , x["intro"] , x["community"] ,x["quadrant"] , x["phone"] , x["phone_2"] ,
                     x["preferred_contact"] ,x["website"], x["email"] , x["status"] , x["bedrooms"] , x["den"] ,x["baths"] , 
                     x["cats"] , x["dogs"] ,"null", x["retrieval_date"])
-
 
                     db.insert(conn, rental, statement)  # exception NOT raised if data not inserted
 

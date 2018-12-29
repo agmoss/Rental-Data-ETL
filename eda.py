@@ -7,6 +7,7 @@ import mysql.connector
 
 from scripts import db_functions as db
 from scripts import plot as p
+from scripts import plotly_plots as pl
 
 def read_data():
     # Read in the data from db
@@ -66,3 +67,8 @@ if __name__ == "__main__":
 
     # Examination of correlation between variables
     p.corr_heat(df)
+
+    p.bar_community(df)
+
+
+
