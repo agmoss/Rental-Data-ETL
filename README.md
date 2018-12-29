@@ -1,30 +1,16 @@
-# RentFaster API ETL
+# Rental Property Analytics Web Application
 
-Query the rentfaster.ca API and store the cleaned results in a MySQL database. 
+The Rental Analytics App is a data science project that offers real time insight to Calgarys rental property market. The app gathers and stores the most recent rental listings and presents the user with advanced statistical visualizations and metrics.  
 
 This is a work in progress.
 
-
 ## About
 
-Each rentfaster.ca webpage exposes a JSON API of the page content. Using pagination, get requests are sent to each individual API. The request responses are converted to dataframe objects and cleaned of inconsistencies and bad data. The cleaned data is then inserted into a MySQL database for storage and analysis.
+This app runs of off data obtained from the rentfaster.ca API. 
 
+Each rentfaster.ca webpage exposes a JSON API of the page content. Using pagination, get requests are sent to each individual API. The request responses cleaned of inconsistencies and bad data then inserted into a MySQL database for storage.
 
-The starting URL for the script is:
-
-```
-https://www.rentfaster.ca/api/search.json?keywords=&proximity_type=location-proximity%27%27&cur_page&beds=&type=&price_range_adv[from]=null&price_range_adv[to]=null&novacancy=0&city_id=1
-```
-
-which corresponds to...
-
-```
-https://www.rentfaster.ca/ab/calgary/rentals/?beds=&baths=&type=&price_range_adv%5Bfrom%5D=null&price_range_adv%5Bto%5D=null
-```
-
-as a browser page. 
-
-
+The front end of the app querys the database and provides an interactive web platform to the user.
 
 ### Prerequisites
 
@@ -34,23 +20,21 @@ Dependencies can be installed via:
 pip install requirements.txt
 ```
 
-
 ## Built With
 
+* [Plotly](https://plot.ly/python/) - Open Source Graphing Library
+* [Seaborn] (https://seaborn.pydata.org/) - Statistical Data Visualization
 * [Requests](http://docs.python-requests.org/en/master/) - HTTP library 
 * [Pandas](https://www.crummy.com/software/BeautifulSoup/) - Dataframe object
 * [mysql-connector-python](https://pypi.org/project/mysql-connector-python/) - MySQL driver written in python
-
 
 ## Contributing
 
 Feedback and constructive criticism is more than welcome
 
-
 ## Author
 
 * **Andrew Moss** - *Creator* - [agmoss](https://github.com/agmoss)
-
 
 ## License
 
