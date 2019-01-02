@@ -3,23 +3,16 @@ import numpy as np
 import time
 import pandas as pd
 import mysql.connector
+import folium
 
 from scripts import Query as q
 from scripts import db_functions as db
 from scripts import plot as p
 from scripts import plotly_plots as pl
+from scripts import LocationMap as lm
 
 
-if __name__ == "__main__":
-
-    conn = db.connect()
-
-    get = q.Query(conn)
-
-    df = get.data_for_analysis()
-
-    # keep rows that are within +3 to -3 standard deviations in the column 'Price'
-    df =  df[np.abs(df.price-df.price.mean()) <= (3 * df.price.std())]
+def main():
 
     pl.bar_community(df)
 
@@ -45,6 +38,32 @@ if __name__ == "__main__":
 
     # Examination of correlation between variables
     p.corr_heat(df)
+
+
+
+if __name__ == "__main__":
+
+    conn = db.connect()
+
+    get = q.Query(conn)
+
+    df = get.data_for_analysis()
+
+    # keep rows that are within +3 to -3 standard deviations in the column 'Price'
+    df =  df[np.abs(df.price-df.price.mean()) <= (3 * df.price.std())]
+
+    # Location map
+    # Create a folium map object
+    mp = folium.Map([51.0486, -114.0708], zoom_start=10)
+
+    # Pass the folium map to the user defined LocationMap class
+    heat_map = lm.LocationMap("Folium heat map", mp)
+
+    # Add the data to the map
+    heat_map.add_heat(df)
+
+    # Save the map
+    heat_map.fmap.save("calgary_heat_map.html")
 
 
 

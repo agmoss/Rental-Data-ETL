@@ -92,7 +92,7 @@ def create_table(conn):
         mycursor.execute(
             "CREATE TABLE rental_data (ref_id VARCHAR(255) PRIMARY KEY,userId INT,id INT,title VARCHAR(255),price DOUBLE,type VARCHAR(255),"
             "sq_feet DECIMAL,availability VARCHAR(255),avdate VARCHAR(255), location VARCHAR(255),rented VARCHAR(255),"
-            "thumb VARCHAR(255), thumb2 VARCHAR(255),slide VARCHAR(255),link VARCHAR(255),latitude DECIMAL,longitude DECIMAL,marker VARCHAR(255),"
+            "thumb VARCHAR(255), thumb2 VARCHAR(255),slide VARCHAR(255),link VARCHAR(255),latitude DOUBLE(20,10),longitude DOUBLE(20,10),marker VARCHAR(255),"
             "address VARCHAR(255),address_hidden INT,city VARCHAR(255),province VARCHAR(255),intro VARCHAR(255), community VARCHAR(255),"
             "quadrant VARCHAR(255),phone VARCHAR(255),phone_2 VARCHAR(255),preferred_contact VARCHAR(255),website VARCHAR(255),"
             "email INT,status VARCHAR(255),bedrooms INT,den VARCHAR(255),baths INT,cats INT,dogs INT,utilities_included VARCHAR(255),"
