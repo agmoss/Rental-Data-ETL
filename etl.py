@@ -2,7 +2,7 @@ import logging
 import pandas as pd
 import re
 
-from scripts import db_functions as db
+from scripts import Database
 from scripts import Accessor
 from scripts import Rental
 
@@ -43,8 +43,8 @@ def main():
             logging.info("Page " + page + " data obtained")
 
             # Connect to the database (exception raised if not connected)
-            conn = db.connect()
-
+            conn = Database.Database.connect()
+            
             for x in listings:
 
                 try:
@@ -56,7 +56,7 @@ def main():
                     x['retrieval_date'] = pd.to_datetime('today').strftime("%m/%d/%Y")
 
                     # Prepare a statement
-                    statement = db.sql_writer_insert('rental_data', x.keys())
+                    statement = Database.Database.sql_writer_insert('rental_data', x.keys())
                     
                     # Instantiate Object
                     rental = Rental.Rental(x["ref_id"],x["userId"], x["id"] ,x["title"] ,x["price"],x["type"] ,
@@ -66,8 +66,8 @@ def main():
                     x["preferred_contact"] ,x["website"], x["email"] , x["status"] , x["bedrooms"] , x["den"] ,x["baths"] , 
                     x["cats"] , x["dogs"] ,"null", x["retrieval_date"])
 
-                    db.insert(conn, rental, statement)  # exception NOT raised if data not inserted
-
+                    Database.Database.insert(conn, rental, statement) # exception NOT raised if data not inserted
+ 
                 except Exception as ex:
                     template = "An exception of type {0} occurred. Arguments:\n{1!r}"
                     message = template.format(type(ex).__name__, ex.args)
