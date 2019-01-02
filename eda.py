@@ -11,6 +11,13 @@ from scripts import plot as p
 from scripts import plotly_plots as pl
 from scripts import LocationMap as lm
 
+from scripts import StaticPlot
+from scripts import PlotlyPlots
+
+PATHS = {
+    "write": "public/charts/",
+    "read":""
+}
 
 def main(df):
 
@@ -25,37 +32,32 @@ def main(df):
     heat_map.add_heat(df)
 
     # Save the map
-    heat_map.fmap.save("calgary_heat_map.html")
+    heat_map.fmap.save(PATHS['write']+"calgary_heat_map.html")
 
     # There are clearly a lot of outliers in the 'price' column, we shall remove them
     # keep rows that are within +3 to -3 standard deviations in the column 'Price'
     df =  df[np.abs(df.price-df.price.mean()) <= (3 * df.price.std())]
 
-    pl.bar_community(df)
+    # Instantiate Objects
+    sp = StaticPlot.StaticPlot(df,PATHS['write'])
+    ply = PlotlyPlots.PlotlyPlots(df,PATHS['write'])
 
-    p.boxplot_price_quadrant(df)
+    sp.bar_community()
+    sp.boxplot_price_quadrant()
+    sp.distplot_price()
+    sp.corr_heat()
 
-    pl.box_price_quadrant(df)
+    ply.bar_community()
+    ply.box_price_quadrant()
+    ply.distplot()
 
     print(df['location'].value_counts())
 
     # Examine the distribution
-
     print("Mean Price: {} ".format(df['price'].mean()))
     print("Kurtosis: {} ".format(df['price'].kurtosis()))
     print("Skew: {}".format(df['price'].skew()))
-
-    p.distplot_price(df)
-
-    pl.distplot(df)
-
-    # Normally Distributed? I guess...
-
-    # Examination of correlation between variables
-    p.corr_heat(df)
-
-
-
+    # # Normally Distributed? I guess...
 
 if __name__ == "__main__":
 
