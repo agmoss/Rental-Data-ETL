@@ -34,7 +34,7 @@ def box_price_quadrant(df):
         "layout" : go.Layout(title = "Price Distribution Per Quadrant",xaxis= dict(title= 'City Quadrant',ticklen= 5,zeroline= False),
               yaxis= dict(title= 'Price',ticklen= 5,zeroline= False))
                 
-    },filename='plotly_box_price_quadrant_.html',auto_open=False)
+    },filename='plotly_box_price_quadrant.html',auto_open=False)
 
 
 def distplot(df):
@@ -48,7 +48,7 @@ def distplot(df):
 
     fig = ff.create_distplot(data,group_labels)
 
-    plotly.offline.plot(fig, filename='test2',auto_open=False)
+    plotly.offline.plot(fig, filename='rental_price_distribution.html',auto_open=False)
 
 
 if __name__ == "__main__":

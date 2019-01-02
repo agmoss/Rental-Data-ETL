@@ -9,6 +9,7 @@ from scripts import db_functions as db
 from scripts import plot as p
 from scripts import plotly_plots as pl
 
+
 if __name__ == "__main__":
 
     conn = db.connect()
@@ -17,6 +18,9 @@ if __name__ == "__main__":
 
     df = get.data_for_analysis()
 
+    # keep rows that are within +3 to -3 standard deviations in the column 'Price'
+    df =  df[np.abs(df.price-df.price.mean()) <= (3 * df.price.std())]
+
     pl.bar_community(df)
 
     p.boxplot_price_quadrant(df)
@@ -24,9 +28,6 @@ if __name__ == "__main__":
     pl.box_price_quadrant(df)
 
     # There are clearly a lot of outliers in the 'price' column, we shall remove them
-
-    # keep rows that are within +3 to -3 standard deviations in the column 'Price'
-    df =  df[np.abs(df.price-df.price.mean()) <= (3 * df.price.std())]
 
     print(df['location'].value_counts())
 

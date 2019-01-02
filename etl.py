@@ -1,12 +1,10 @@
 import logging
 import pandas as pd
-from pandas.io.json import json_normalize
+import re
 
 from scripts import db_functions as db
-from scripts import get
+from scripts import Accessor
 from scripts import Rental
-
-import re
 
 
 def main():
@@ -17,7 +15,6 @@ def main():
 
     logging.info('Start')
 
-    frames = []
     i = 0 #Loop counter
 
     while True:
@@ -29,7 +26,7 @@ def main():
             url = 'https://www.rentfaster.ca/api/search.json?keywords=&proximity_type=location-proximity&cur_page=' + page + '&beds=&type=&price_range_adv[from]=null&price_range_adv[to]=null&novacancy=0&city_id=1'
 
             # Access object
-            scr = get.Accessor(url)
+            scr = Accessor.Accessor(url)
 
             data = scr.get_json()
 

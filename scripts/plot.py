@@ -4,8 +4,6 @@ import seaborn as sns
 import numpy as np
 import pandas as pd
 
-import cufflinks as cf
-
 # TODO: Plot class?
 
 def boxplot_price_quadrant(df):
@@ -105,5 +103,4 @@ def bar_community(df):
 
 
 if __name__ == "__main__":
-
     print(__name__)
