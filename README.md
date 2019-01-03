@@ -22,11 +22,13 @@ pip install requirements.txt
 
 ## Built With
 
-* [Plotly](https://plot.ly/python/) - Open Source Graphing Library
-* [Seaborn](https://seaborn.pydata.org/) - Statistical Data Visualization
+* [Django](https://www.djangoproject.com/) - Web framework
+* [Plotly](https://plot.ly/python/) - Open source graphing library
+* [Seaborn](https://seaborn.pydata.org/) - Statistical data visualization
 * [Requests](http://docs.python-requests.org/en/master/) - HTTP library 
 * [Pandas](https://www.crummy.com/software/BeautifulSoup/) - Dataframe object
 * [mysql-connector-python](https://pypi.org/project/mysql-connector-python/) - MySQL driver written in python
+* [Start Bootstrap - SB Admin](https://github.com/BlackrockDigital/startbootstrap-sb-admin) - Open source bootstrap template
 
 ## Contributing
 
