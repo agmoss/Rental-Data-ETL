@@ -6,3 +6,6 @@ def index(request):
 
 def about(request):
     return render(request,'rental/about.html')
+
+def data(request):
+    return render(request,'rental/data.html')
