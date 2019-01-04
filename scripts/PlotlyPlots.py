@@ -8,7 +8,7 @@ class PlotlyPlots:
         self.df = df
         self.write_path = write_path
 
-    # The output of this function can be embedded as a HTML div tag
+
     def bar_community(self):
         
         data = self.df['community'].value_counts()[:20]
@@ -30,7 +30,7 @@ class PlotlyPlots:
 
     def box_price_quadrant(self):
 
-        plotly.offline.plot({
+        a = plotly.offline.plot({
             "data" : [
             go.Box(
                 x=self.df["quadrant"], 
@@ -41,17 +41,21 @@ class PlotlyPlots:
             "layout" : go.Layout(title = "Price Distribution Per Quadrant",xaxis= dict(title= 'City Quadrant',ticklen= 5,zeroline= False),
                 yaxis= dict(title= 'Price',ticklen= 5,zeroline= False))
                     
-        },filename=self.write_path+'box_price_quadrant.html',auto_open=False, config={"displayModeBar": False})
+        },include_plotlyjs=False, output_type='div',auto_open=False, config={"displayModeBar": False},show_link=False)
+
+        return a
 
     def distplot(self):
 
         # In the works
 
-        data = self.df['price']
+        a = data = self.df['price']
 
         data = [data]
         group_labels = ['Price']
 
         fig = ff.create_distplot(data,group_labels)
 
-        plotly.offline.plot(fig, filename=self.write_path+'distplot.html',auto_open=False, config={"displayModeBar": False})
+        plotly.offline.plot(fig,include_plotlyjs=False, output_type='div',auto_open=False, config={"displayModeBar": False},show_link=False)
+
+        return a 

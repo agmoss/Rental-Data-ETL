@@ -17,6 +17,9 @@ PATHS = {
     "read":""
 }
 
+logging.basicConfig(filename='app.log', filemode='w', level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
+
 def main(df):
 
     # Location Map
@@ -45,7 +48,7 @@ def main(df):
     sp.distplot_price()
     sp.corr_heat()
 
-    print(ply.bar_community())
+    ply.bar_community()
     ply.box_price_quadrant()
     ply.distplot()
 

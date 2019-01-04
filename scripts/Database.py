@@ -51,8 +51,13 @@ class Database:
                     raise
 
             except mysql.connector.errors.InterfaceError as e:
-                logging.info(e)
-                raise
+
+                if e.errno == 2003: # A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond)
+                    logging.info("FATAL: Cannot connect to the database, ensure that port 3306 is open and the cloud db is online")
+                    logging.info(e)
+                    sys.exit(-1)
+                else:
+                    raise
 
             except Exception as ex:
                 logging.info(ex)
