@@ -7,8 +7,6 @@ import folium
 
 from scripts import Query as q
 from scripts import Database
-from scripts import plot as p
-from scripts import plotly_plots as pl
 from scripts import LocationMap as lm
 
 from scripts import StaticPlot
@@ -47,7 +45,7 @@ def main(df):
     sp.distplot_price()
     sp.corr_heat()
 
-    ply.bar_community()
+    print(ply.bar_community())
     ply.box_price_quadrant()
     ply.distplot()
 
