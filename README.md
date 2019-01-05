@@ -19,6 +19,19 @@ Dependencies can be installed via:
 ```
 pip install requirements.txt
 ```
+## Tests
+
+Testing for this project is handled by pytest.
+
+### Testing the database connection & API status
+
+ In the project directory, type:
+
+```
+$ pytest tests/test.py
+```
+
+All tests should pass before running app.py.
 
 ## Built With
 

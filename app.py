@@ -55,8 +55,10 @@ def main():
                     
                     x['retrieval_date'] = pd.to_datetime('today').strftime("%m/%d/%Y")
 
+                    db = Database.Database.db_config()[3]
+
                     # Prepare a statement
-                    statement = Database.Database.sql_writer_insert('rental_data', x.keys())
+                    statement = Database.Database.sql_writer_insert(db, x.keys())
                     
                     # Instantiate Object
                     rental = Rental.Rental(x["ref_id"],x["userId"], x["id"] ,x["title"] ,x["price"],x["type"] ,

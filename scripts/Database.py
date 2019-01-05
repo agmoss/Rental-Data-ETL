@@ -89,15 +89,17 @@ class Database:
     def create_table(conn):
         try:
 
+            db = Database.db_config()[3]
+
             # Determine if table already exists
             mycursor = conn.cursor()
             mycursor.execute("SHOW TABLES")
 
-            if "rental_data" in mycursor:
+            if db in mycursor:
                 raise ("Table already in existence")
 
             mycursor.execute(
-                "CREATE TABLE rental_data (ref_id VARCHAR(255) PRIMARY KEY,userId INT,id INT,title VARCHAR(255),price DOUBLE,type VARCHAR(255),"
+                "CREATE TABLE " + db + " (ref_id VARCHAR(255) PRIMARY KEY,userId INT,id INT,title VARCHAR(255),price DOUBLE,type VARCHAR(255),"
                 "sq_feet DECIMAL,availability VARCHAR(255),avdate VARCHAR(255), location VARCHAR(255),rented VARCHAR(255),"
                 "thumb VARCHAR(255), thumb2 VARCHAR(255),slide VARCHAR(255),link VARCHAR(255),latitude DOUBLE(20,10),longitude DOUBLE(20,10),marker VARCHAR(255),"
                 "address VARCHAR(255),address_hidden INT,city VARCHAR(255),province VARCHAR(255),intro VARCHAR(255), community VARCHAR(255),"
