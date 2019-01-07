@@ -30,7 +30,7 @@ class LocationMap:
 
         return html1
 
-    def add_item(self, df):
+    def add_marker(self, df):
         """Add a popup item to the folium map"""
 
         # mark a row as a folium marker
@@ -56,28 +56,26 @@ class LocationMap:
         else:
             return 'red'
 
-    def status_marks(self, df):
+    def shape_mark(self, df):
         """Add custom heat markers to a folium map"""
 
         for index, row in df.iterrows():
-            # The radius of the circle grows as crossover increases
-            radius = row['crossover'] / 1000
 
-            folium.CircleMarker([row['Lat'], row['Lon']]
-                                , radius=radius
+            popup = LocationMap.html_popup(code1=row['type'], code2=row['price'], code3=row['address'],
+                                code4=row['community'])
+
+            folium.CircleMarker([row['latitude'], row['longitude']]
+                                , radius=2
                                 , fill=True
-                                , color=self.color_producer(row['Cross_Normal'])
-                                , opacity=row['Cross_Normal']
-
-                                , fill_color=self.color_producer(row['Cross_Normal'])
-                                , fill_opacity=row['Cross_Normal']
-
-                                # The current popup takes forever to render...
-                                # ,popup=popup
+                                , color='red'
+                                , opacity=5
+                                , fill_color='red'
+                                , fill_opacity=1
+                                , popup=popup
 
                                 ).add_to(self.fmap)
 
-        return self.fmap
+        #return self.fmap
 
     def add_heat(self, df):
         """Add standard folium heatmap to the map object."""

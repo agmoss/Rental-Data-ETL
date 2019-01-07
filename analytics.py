@@ -15,6 +15,7 @@ from scripts import PlotlyPlots
 
 PATHS = {
     "write": "public/charts/",
+    "heatmap" : "djsite/rental/templates/rental/",
     "read":""
 }
 
@@ -31,10 +32,10 @@ def main(df):
     heat_map = lm.LocationMap("Folium heat map", mp)
 
     # Add the data to the map
-    heat_map.add_heat(df)
+    heat_map.shape_mark(df)
 
     # Save the map
-    heat_map.fmap.save(PATHS['write']+"calgary_heat_map.html")
+    heat_map.fmap.save(PATHS['heatmap']+"calgary_heat_map.html")
 
     # There are clearly a lot of outliers in the 'price' column, we shall remove them
     # keep rows that are within +3 to -3 standard deviations in the column 'Price'
@@ -63,16 +64,31 @@ def main(df):
 
 def visuals(df):
 
+    # Location Map
+    # Create a folium map object
+    mp = folium.Map([51.0486, -114.0708], zoom_start=10)
+
+    # Pass the folium map to the user defined LocationMap class
+    heat_map = lm.LocationMap("Folium heat map", mp)
+
+    # Add the data to the map
+    heat_map.shape_mark(df)
+
+    # Save the map
+    #heat_map.fmap.save(PATHS['write']+"calgary_heat_map.html")
+    heat_map.fmap.save(PATHS['heatmap']+"calgary_heat_map.html")
+
     # Instantiate Objects
     sp = StaticPlot.StaticPlot(df,PATHS['write'])
     ply = PlotlyPlots.PlotlyPlots(df,PATHS['write'])
 
-    static_bar_community = sp.bar_community()
-    static_box_price_quadrant = sp.boxplot_price_quadrant()
-    static_dist_price = sp.distplot_price()
-    static_corr_heat = sp.corr_heat()
-
+    sp.bar_community()
     dynamic_bar_community = ply.bar_community()
+
+    sp.boxplot_price_quadrant()
+    sp.distplot_price()
+    sp.corr_heat()
+
     dynamic_box_price = ply.box_price_quadrant()
     dynamic_dist_price = ply.distplot()
     

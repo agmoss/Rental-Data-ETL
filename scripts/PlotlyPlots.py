@@ -2,11 +2,15 @@ import plotly
 import plotly.graph_objs as go
 import plotly.figure_factory as ff
 
+import numpy as np
+
 class PlotlyPlots:
 
     def __init__(self,df,write_path):
         self.df = df
         self.write_path = write_path
+        # keep rows that are within +3 to -3 standard deviations in the column 'Price'
+        self.df1 =  df[np.abs(df.price-df.price.mean()) <= (3 * df.price.std())]
 
 
     def bar_community(self):
@@ -33,8 +37,8 @@ class PlotlyPlots:
         a = plotly.offline.plot({
             "data" : [
             go.Box(
-                x=self.df["quadrant"], 
-                y=self.df["price"]
+                x=self.df1["quadrant"], 
+                y=self.df1["price"]
             )
             ],
 

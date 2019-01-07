@@ -5,6 +5,8 @@ from django.conf import settings # For file paths
 import json
 import os
 
+import folium
+
 
 def index(request):
 
@@ -34,3 +36,20 @@ def data(request):
     }
 
     return render(request,'rental/data.html',title)
+
+def map(request):
+
+    title = {
+        'title' : 'Data'
+    }
+
+    return render(request,'rental/map.html',title)
+
+
+def calgary_heat_map(request):
+    
+    title = {
+        'title' : 'Data'
+    }
+
+    return render(request,'rental/calgary_heat_map.html',title)
