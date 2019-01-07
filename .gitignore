@@ -7,7 +7,7 @@ __pycache__
 *.log
 .idea/
 .pytest_cache
-#djsite/rental/templates/rental/calgary_heat_map.html
+public/charts/
 
 # From https://github.com/github/gitignore
 
