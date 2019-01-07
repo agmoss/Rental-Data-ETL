@@ -7,7 +7,7 @@ __pycache__
 *.log
 .idea/
 .pytest_cache
-public/charts 
+
 
 # From https://github.com/github/gitignore
 
