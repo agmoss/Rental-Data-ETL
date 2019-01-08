@@ -150,8 +150,8 @@ class Database:
                 if ie.errno == 1062: # Duplicate entry
 
                     logging.info("Duplicate entry")
-                    break
-                    #TODO: Make this into a real update
+                    raise #TODO: Custom raise? 
+
 
                 else:
                     logging.info('Record unable to be updated')
@@ -165,6 +165,36 @@ class Database:
 
             else:
                 break
+
+    @staticmethod
+    def update(db, obj, sql):
+        """Insert the list of records"""
+
+        # List of attribute values
+        lis = list(obj.__dict__.values())
+
+        # Remove ref_id
+        first = lis.pop(0)
+
+        # Add ref_id to the end 
+        lis.append(first)
+
+        # Convert to tuple for update
+        val = tuple(lis)
+
+        while True:
+
+            try:
+                my_cursor = db.cursor()
+                my_cursor.execute(sql,val)
+                db.commit()
+                logging.info('Record Updated')
+                break
+            except Exception as ex: 
+                logging.info(ex)
+                logging.info(type(ex))
+                break
+
 
     @staticmethod
     def sql_writer_insert(table_name, header_list):
@@ -183,6 +213,24 @@ class Database:
 
         return sql
 
+    @staticmethod
+    def sql_writer_update(table_name, header_list):
+        """Generate a custom SQL update statement"""
+
+        # Remove ref_id
+        header_list.pop(0)
+
+        # Add the s' to each header
+        header_list = [s + "=%s" for s in header_list]
+
+        # Convert
+        header_list = ','.join(map(str, header_list))
+
+        sql = "UPDATE " + table_name + " SET " + header_list +  " WHERE ref_id =%s "
+
+        return sql
+
 
 if __name__ == '__main__':
     print(__name__)
+    # TODO: Clean up the update hack

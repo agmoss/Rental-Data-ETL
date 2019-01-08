@@ -6,11 +6,11 @@ class Rental:
             status , bedrooms , den ,baths ,  cats , dogs ,utilities_included, retrieval_date):
             
                 self.ref_id = ref_id
-                self._id = _id
+                self.id = _id
                 self.userId = userId
                 self.title = title
                 self.price = price
-                self._type = _type
+                self.type = _type
                 self.sq_feet = sq_feet
                 self.availability = availability
                 self.avdate = avdate
@@ -27,7 +27,7 @@ class Rental:
                 self.address_hidden = address_hidden
                 self.city = city
                 self.province  = province
-                self.into = intro
+                self.intro = intro
                 self.community = community
                 self.quadrant = quadrant
                 self.phone = phone
