@@ -19,6 +19,8 @@ def main():
 
     i = 0 #Loop counter
 
+    keys = [] # Primary Key List
+
     while True:
 
         try:
@@ -51,21 +53,49 @@ def main():
 
                 try:
 
-                    # Data Cleaning
-                    listing['sq_feet'] = re.sub("[^0-9]", "", listing['sq_feet'])
+                    # Save Primary Key
+                    keys.append(listing['ref_id'])
 
-                    listing['bedrooms'] = listing['bedrooms'].replace('bachelor', "0")
-                    
+                    # Add retrieval date
                     listing['retrieval_date'] = pd.to_datetime('today').strftime("%m/%d/%Y")
 
+                    # --- Data Cleaning ---
+
+                    if 'sq_feet' in listing:
+                        listing['sq_feet'] = re.sub("[^0-9]", "", listing['sq_feet'])
+                    else:
+                        listing['sq_feet'] = ""
+
+                    if 'bedrooms' in listing:
+                        listing['bedrooms'] = listing['bedrooms'].replace('bachelor', "0")
+                    else:
+                        listing['bedrooms'] = "0"
+           
                     # Convert the list to a CSV string
-                    listing['utilities_included'] = ",".join([str(x) for x in listing['utilities_included']]) 
+                    if 'utilities_included' in listing:
+                        listing['utilities_included'] = ",".join([str(x) for x in listing['utilities_included']]) 
 
-                    # Remove whitespace 
-                    listing['utilities_included'] = listing['utilities_included'].strip()
+                        # Remove whitespace 
+                        listing['utilities_included'] = listing['utilities_included'].strip()
 
-                    # Remove trailing comma
-                    listing['utilities_included'] = listing['utilities_included'].rstrip(',')
+                        # Remove trailing comma
+                        listing['utilities_included'] = listing['utilities_included'].rstrip(',')
+                    else:
+                        listing['utilities_included'] = ""
+
+                    if 'den' not in listing:
+                        listing['den'] = " "
+
+                    if 'baths' not in listing:
+                        listing['baths'] = " "
+
+                    if 'cats' not in listing:
+                        listing['cats'] = " "
+
+                    if 'dogs' not in listing:
+                        listing['dogs'] = " "
+
+                    # --- End Data Cleaning ---
 
                     db = Database.Database.db_config()[3]
 
@@ -77,7 +107,7 @@ def main():
                     listing["sq_feet"],listing["availability"],listing["avdate"],listing["location"] ,listing["rented"] ,listing["thumb"] , listing["thumb2"] ,
                     listing["slide"] , listing["link"] ,listing["latitude"] , listing["longitude"],listing["marker"] ,listing["address"], listing["address_hidden"],  
                     listing["city"] ,listing["province"] , listing["intro"] , listing["community"] ,listing["quadrant"] , listing["phone"] , listing["phone_2"] ,
-                    listing["preferred_contact"] ,listing["website"], listing["email"] , listing["status"] , listing["bedrooms"] , listing["den"] ,listing["baths"] , 
+                    listing["preferred_contact"] ,listing["website"], listing["email"] , listing["status"] , listing["bedrooms"] or "null" , listing["den"] ,listing["baths"] , 
                     listing["cats"] , listing["dogs"] ,listing['utilities_included'], listing["retrieval_date"])
 
                     Database.Database.insert(conn, rental, statement) # exception NOT raised if data not inserted
@@ -86,7 +116,6 @@ def main():
                 except mysql.connector.errors.IntegrityError as ie: # TODO: Custom raise
 
                     if ie.errno == 1062: # Duplicate entry
-
                         statement = Database.Database.sql_writer_update(db, list(rental.__dict__.keys()))
                         Database.Database.update(conn, rental, statement)
 
@@ -107,7 +136,15 @@ def main():
         finally:
             logging.info("Page complete")
 
-    logging.info("Au revoir")
+    logging.info("---All API data has been parsed and the database has been updated---")
+
+    # Update rental listing status
+    conn = Database.Database.connect() # Connect to the database (exception raised if not connected)
+
+    Database.Database.key_status(conn, keys)
+
+    logging.info("Bon Voyage")
+
 
 if __name__ == "__main__":
     main()

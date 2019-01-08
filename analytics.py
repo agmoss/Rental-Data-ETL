@@ -5,6 +5,7 @@ import pandas as pd
 import mysql.connector
 import folium
 import json
+import os
 
 from scripts import Query as q
 from scripts import Database
@@ -63,6 +64,8 @@ def main(df):
     # # Normally Distributed? I guess...
 
 def visuals(df):
+
+    os.makedirs(os.path.dirname(PATHS['write']), exist_ok=True)
 
     # Location Map
     # Create a folium map object
