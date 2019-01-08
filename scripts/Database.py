@@ -4,6 +4,9 @@ import sys
 import re
 import pandas as pd
 
+logging.basicConfig(filename='app.log', filemode='w', level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
+
 
 class Database:
 
@@ -99,12 +102,12 @@ class Database:
                 raise ("Table already in existence")
 
             mycursor.execute(
-                "CREATE TABLE " + db + " (ref_id VARCHAR(255) PRIMARY KEY,userId INT,id INT,title VARCHAR(255),price DOUBLE,type VARCHAR(255),"
-                "sq_feet DECIMAL,availability VARCHAR(255),avdate VARCHAR(255), location VARCHAR(255),rented VARCHAR(255),"
-                "thumb VARCHAR(255), thumb2 VARCHAR(255),slide VARCHAR(255),link VARCHAR(255),latitude DOUBLE(20,10),longitude DOUBLE(20,10),marker VARCHAR(255),"
-                "address VARCHAR(255),address_hidden INT,city VARCHAR(255),province VARCHAR(255),intro VARCHAR(255), community VARCHAR(255),"
-                "quadrant VARCHAR(255),phone VARCHAR(255),phone_2 VARCHAR(255),preferred_contact VARCHAR(255),website VARCHAR(255),"
-                "email INT,status VARCHAR(255),bedrooms INT,den VARCHAR(255),baths INT,cats INT,dogs INT,utilities_included VARCHAR(255),"
+                "CREATE TABLE " + db + " (ref_id VARCHAR(255) PRIMARY KEY,userId INT DEFAULT NULL,id INT,title VARCHAR(255) DEFAULT NULL ,price DOUBLE DEFAULT NULL,type VARCHAR(255) DEFAULT NULL,"
+                "sq_feet DECIMAL DEFAULT NULL,availability VARCHAR(255) DEFAULT NULL, avdate VARCHAR(255) DEFAULT NULL, location VARCHAR(255) DEFAULT NULL, rented VARCHAR(255) DEFAULT NULL,"
+                "thumb VARCHAR(255) DEFAULT NULL, thumb2 VARCHAR(255) DEFAULT NULL,slide VARCHAR(255) DEFAULT NULL,link VARCHAR(255) DEFAULT NULL,latitude DOUBLE(20,10) DEFAULT NULL,longitude DOUBLE(20,10) DEFAULT NULL,marker VARCHAR(255) DEFAULT NULL,"
+                "address VARCHAR(255) DEFAULT NULL,address_hidden INT DEFAULT NULL,city VARCHAR(255) DEFAULT NULL,province VARCHAR(255) DEFAULT NULL,intro VARCHAR(255) DEFAULT NULL, community VARCHAR(255) DEFAULT NULL,"
+                "quadrant VARCHAR(255) DEFAULT NULL,phone VARCHAR(255) DEFAULT NULL,phone_2 VARCHAR(255) DEFAULT NULL,preferred_contact VARCHAR(255) DEFAULT NULL,website VARCHAR(255) DEFAULT NULL,"
+                "email INT DEFAULT NULL,status VARCHAR(255) DEFAULT NULL,bedrooms INT DEFAULT 0,den VARCHAR(255) DEFAULT NULL,baths INT DEFAULT NULL,cats INT DEFAULT NULL,dogs INT DEFAULT NULL,utilities_included VARCHAR(255) DEFAULT NULL,"
                 "retrieval_date VARCHAR(255))") 
 
             logging.info("Table created")
@@ -152,7 +155,6 @@ class Database:
                     logging.info("Duplicate entry")
                     raise #TODO: Custom raise? 
 
-
                 else:
                     logging.info('Record unable to be updated')
                     logging.info(ie.args)
@@ -176,6 +178,9 @@ class Database:
         # Remove ref_id
         first = lis.pop(0)
 
+        # Remove retrieval_date
+        del lis[-1]
+
         # Add ref_id to the end 
         lis.append(first)
 
@@ -195,6 +200,36 @@ class Database:
                 logging.info(type(ex))
                 break
 
+    @staticmethod
+    def key_status(db, key_list):
+        """UNTESTED Update status to inactive if a database record is no longer present in the API data."""
+
+        cur = db.cursor(buffered=True)
+
+        cur.execute("SELECT ref_id, status FROM rental_data")
+        row = cur.fetchone()
+        while row is not None:
+
+            if row[0] not in key_list:
+
+                # Update
+
+                val = (row[0],)
+
+                sql = "UPDATE rental_data SET status = 'inactive' WHERE ref_id = %s" 
+
+                mycursor = db.cursor()
+
+                mycursor.execute(sql,val)
+
+                db.commit()
+
+                logging.info("Record updated to inactive")
+
+            row = cur.fetchone()
+
+        cur.close()
+        db.close()
 
     @staticmethod
     def sql_writer_insert(table_name, header_list):
@@ -219,6 +254,9 @@ class Database:
 
         # Remove ref_id
         header_list.pop(0)
+
+        # Remove retrieval_date
+        del header_list[-1]
 
         # Add the s' to each header
         header_list = [s + "=%s" for s in header_list]

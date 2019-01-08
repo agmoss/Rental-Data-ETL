@@ -4,13 +4,6 @@ The Rental Analytics App is a data science project that offers real time insight
 
 This is a work in progress.
 
-## About
-
-This app runs of off data obtained from the rentfaster.ca API. 
-
-Each rentfaster.ca webpage exposes a JSON API of the page content. Using pagination, get requests are sent to each individual API. The request responses cleaned of inconsistencies and bad data then inserted into a MySQL database for storage.
-
-The front end of the app querys the database and provides an interactive web platform to the user.
 
 ### Prerequisites
 

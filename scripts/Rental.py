@@ -3,7 +3,7 @@ class Rental:
     def __init__(self,ref_id,userId , _id ,title ,price,_type ,sq_feet,availability,avdate,
             location ,rented ,thumb , thumb2 ,slide , link ,latitude , longitude,marker ,address, address_hidden,  
             city ,province , intro , community ,quadrant , phone , phone_2 ,preferred_contact ,website, email ,  
-            status , bedrooms , den ,baths ,  cats , dogs ,utilities_included, retrieval_date):
+            status , bedrooms = 0 , den = " " ,baths = " " ,  cats = " " , dogs = " " ,utilities_included = " ", retrieval_date = " "):
             
                 self.ref_id = ref_id
                 self.id = _id
