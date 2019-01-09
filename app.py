@@ -59,6 +59,10 @@ def main():
                     # Add retrieval date
                     listing['retrieval_date'] = pd.to_datetime('today').strftime("%m/%d/%Y")
 
+                    # Add position
+
+                    listing['position'] = "active"
+
                     # --- Data Cleaning ---
 
                     if 'sq_feet' in listing:
@@ -98,17 +102,17 @@ def main():
                     # --- End Data Cleaning ---
 
                     db = Database.Database.db_config()[3]
-
-                    # Prepare a statement
-                    statement = Database.Database.sql_writer_insert(db, listing.keys())
                     
                     # Instantiate Object
                     rental = Rental.Rental(listing["ref_id"],listing["userId"], listing["id"] ,listing["title"] ,listing["price"],listing["type"] ,
                     listing["sq_feet"],listing["availability"],listing["avdate"],listing["location"] ,listing["rented"] ,listing["thumb"] , listing["thumb2"] ,
                     listing["slide"] , listing["link"] ,listing["latitude"] , listing["longitude"],listing["marker"] ,listing["address"], listing["address_hidden"],  
                     listing["city"] ,listing["province"] , listing["intro"] , listing["community"] ,listing["quadrant"] , listing["phone"] , listing["phone_2"] ,
-                    listing["preferred_contact"] ,listing["website"], listing["email"] , listing["status"] , listing["bedrooms"] or "null" , listing["den"] ,listing["baths"] , 
-                    listing["cats"] , listing["dogs"] ,listing['utilities_included'], listing["retrieval_date"])
+                    listing["preferred_contact"] ,listing["website"], listing["email"] , listing["status"] , listing["bedrooms"] , listing["den"] ,listing["baths"] , 
+                    listing["cats"] , listing["dogs"] ,listing['utilities_included'], listing['position'], listing["retrieval_date"])
+
+                    # Prepare a statement
+                    statement = Database.Database.sql_writer_insert(db, list(rental.__dict__.keys()))
 
                     Database.Database.insert(conn, rental, statement) # exception NOT raised if data not inserted
 

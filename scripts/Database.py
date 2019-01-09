@@ -108,7 +108,7 @@ class Database:
                 "address VARCHAR(255) DEFAULT NULL,address_hidden INT DEFAULT NULL,city VARCHAR(255) DEFAULT NULL,province VARCHAR(255) DEFAULT NULL,intro VARCHAR(255) DEFAULT NULL, community VARCHAR(255) DEFAULT NULL,"
                 "quadrant VARCHAR(255) DEFAULT NULL,phone VARCHAR(255) DEFAULT NULL,phone_2 VARCHAR(255) DEFAULT NULL,preferred_contact VARCHAR(255) DEFAULT NULL,website VARCHAR(255) DEFAULT NULL,"
                 "email INT DEFAULT NULL,status VARCHAR(255) DEFAULT NULL,bedrooms INT DEFAULT 0,den VARCHAR(255) DEFAULT NULL,baths INT DEFAULT NULL,cats INT DEFAULT NULL,dogs INT DEFAULT NULL,utilities_included VARCHAR(255) DEFAULT NULL,"
-                "retrieval_date VARCHAR(255))") 
+                "position VARCHAR(255) NOT NULL, retrieval_date VARCHAR(255) NOT NULL)") 
 
             logging.info("Table created")
 
@@ -181,6 +181,9 @@ class Database:
         # Remove retrieval_date
         del lis[-1]
 
+        # Remove position
+        del lis[-1]
+
         # Add ref_id to the end 
         lis.append(first)
 
@@ -206,7 +209,7 @@ class Database:
 
         cur = db.cursor(buffered=True)
 
-        cur.execute("SELECT ref_id, status FROM rental_data")
+        cur.execute("SELECT ref_id, position FROM rental_data")
         row = cur.fetchone()
         while row is not None:
 
@@ -216,7 +219,7 @@ class Database:
 
                 val = (row[0],)
 
-                sql = "UPDATE rental_data SET status = 'inactive' WHERE ref_id = %s" 
+                sql = "UPDATE rental_data SET position = 'inactive' WHERE ref_id = %s" 
 
                 mycursor = db.cursor()
 
@@ -256,6 +259,9 @@ class Database:
         header_list.pop(0)
 
         # Remove retrieval_date
+        del header_list[-1]
+
+        # Remove position
         del header_list[-1]
 
         # Add the s' to each header
