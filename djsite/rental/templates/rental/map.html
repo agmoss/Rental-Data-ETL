@@ -1,16 +1,16 @@
 {% extends "rental/base.html"%}
 {% block content %}
 
-  <!-- Chart2-->
+  <!-- Map-->
   <div class="card mb-3">
     <div class="card-header">
       <i class="fas fa-chart-area"></i>
       Heat-Map</div>
+
     <div class="card-body">
-
-        <iframe id="encoder_iframe" width = 1200px , height = 900px  src="{% url 'calgary_heat_map' %}">
-        </iframe>
-
+        <div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item" src="{% url 'calgary_heat_map' %}"></iframe>
+        </div>
     </div>
     <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
   </div>

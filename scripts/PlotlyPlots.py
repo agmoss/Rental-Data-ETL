@@ -62,4 +62,44 @@ class PlotlyPlots:
 
         plotly.offline.plot(fig,include_plotlyjs=False, output_type='div',auto_open=False, config={"displayModeBar": False},show_link=False)
 
-        return a 
+        return a
+
+    def bar_price_community(self):
+
+        df2 = self.df1.groupby('community', as_index=False)['price'].mean()
+
+        df2 = df2.sort_values('price')
+
+        a = plotly.offline.plot({
+            "data" : [
+            go.Bar(
+                y=df2["community"], 
+                x=df2["price"],
+                orientation='h'
+            )
+            ],
+
+            "layout" : go.Layout(title = "Average Price Per Community",xaxis= dict(title= 'Price',ticklen= 5,zeroline= False),
+                yaxis= dict(title= 'Community',ticklen= 5,zeroline= False))
+                    
+        },include_plotlyjs=False, output_type='div',auto_open=False, config={"displayModeBar": False},show_link=False)
+
+        return a
+
+    def pie_community(self):
+
+        data = self.df['community'].value_counts()[:10]
+
+        a = plotly.offline.plot({
+            "data" : [
+            go.Pie(
+                labels=data.index,
+                values=data.values
+            )
+            ],
+
+            "layout" : go.Layout(title = "Communities with the Most Rental Listings")
+                    
+        },include_plotlyjs=False, output_type='div',auto_open=False, config={"displayModeBar": False},show_link=False)
+
+        return a

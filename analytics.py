@@ -94,12 +94,17 @@ def visuals(df):
 
     dynamic_box_price = ply.box_price_quadrant()
     dynamic_dist_price = ply.distplot()
+    dynamic_bar_price_community = ply.bar_price_community()
+    dynamic_pie_community = ply.pie_community()
     
     data = {}
 
     data['dynamic_bar_community'] = str(dynamic_bar_community)
     data['dynamic_box_price'] = str(dynamic_box_price)
     data['dynamic_dist_price'] = str(dynamic_dist_price)
+    data['dynamic_bar_price_community'] = str(dynamic_bar_price_community)
+    data['dynamic_pie_community'] = str(dynamic_pie_community)
+
 
     with open(PATHS['write'] + 'plots.json', 'w') as outfile:
         json.dump(data, outfile)
@@ -112,5 +117,9 @@ if __name__ == "__main__":
     get = q.Query(conn)
 
     df = get.data_for_analysis()
+
+    #print(df['location'].value_counts())
+
+    #df_ = df.groupby('community', as_index=False)['price'].mean()
 
     visuals(df)

@@ -213,12 +213,11 @@ class Database:
         row = cur.fetchone()
         while row is not None:
 
+            val = (row[0],)
+
             if row[0] not in key_list:
 
-                # Update
-
-                val = (row[0],)
-
+                # Update to inactive
                 sql = "UPDATE rental_data SET position = 'inactive' WHERE ref_id = %s" 
 
                 mycursor = db.cursor()
@@ -228,6 +227,19 @@ class Database:
                 db.commit()
 
                 logging.info("Record updated to inactive")
+
+            else:
+
+                # Update to active
+                sql = "UPDATE rental_data SET position = 'active' WHERE ref_id = %s" 
+
+                mycursor = db.cursor()
+
+                mycursor.execute(sql,val)
+
+                db.commit()
+
+                logging.info("Record updated to active")
 
             row = cur.fetchone()
 

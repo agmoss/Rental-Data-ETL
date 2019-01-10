@@ -11,6 +11,8 @@ __pycache__
 public/charts/**/*.*
 djsite/rental/templates/rental/calgary_heat_map.html
 
+.vs
+
 # From https://github.com/github/gitignore
 
 # Byte-compiled / optimized / DLL files
