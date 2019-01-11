@@ -25,7 +25,7 @@ class PlotlyPlots:
             )
             ],
 
-            "layout" : go.Layout(title = "Communities with the Most Rental Listings",xaxis= dict(title= 'Community',ticklen= 5,zeroline= False),
+            "layout" : go.Layout(xaxis= dict(title= 'Community',ticklen= 5,zeroline= False),
                 yaxis= dict(title= 'Number of Open Listings',ticklen= 5,zeroline= False))
                     
         },include_plotlyjs=False, output_type='div',auto_open=False, config={"displayModeBar": False},show_link=False)
@@ -42,8 +42,17 @@ class PlotlyPlots:
             )
             ],
 
-            "layout" : go.Layout(title = "Price Distribution Per Quadrant",xaxis= dict(title= 'City Quadrant',ticklen= 5,zeroline= False),
-                yaxis= dict(title= 'Price',ticklen= 5,zeroline= False))
+            "layout" : go.Layout(
+                xaxis= dict(title= 'City Quadrant',ticklen= 5,zeroline= False,automargin = True),
+                yaxis= dict(title= 'Price',ticklen= 5,zeroline= False,automargin = True),
+                margin=go.layout.Margin(
+                    l=50,
+                    r=50,
+                    b=25,
+                    t=25,
+                    pad=4
+                        )
+                )
                     
         },include_plotlyjs=False, output_type='div',auto_open=False, config={"displayModeBar": False},show_link=False)
 
@@ -64,7 +73,7 @@ class PlotlyPlots:
 
         return a
 
-    def bar_price_community(self):
+    def scatter_price_community(self):
 
         df2 = self.df1.groupby('community', as_index=False)['price'].mean()
 
@@ -72,15 +81,29 @@ class PlotlyPlots:
 
         a = plotly.offline.plot({
             "data" : [
-            go.Bar(
+            go.Scatter(
                 y=df2["community"], 
                 x=df2["price"],
-                orientation='h'
+                marker =  {"color": "red", "size": 12},
+                mode = "markers"
+                
             )
             ],
 
-            "layout" : go.Layout(title = "Average Price Per Community",xaxis= dict(title= 'Price',ticklen= 5,zeroline= False),
-                yaxis= dict(title= 'Community',ticklen= 5,zeroline= False))
+            "layout" : go.Layout(
+                xaxis= dict(title= 'Price',ticklen= 5,zeroline= False,automargin = True),
+                yaxis= dict(title= 'Community',ticklen= 5,zeroline= False,automargin = True),
+                autosize=False,
+                width=1100,
+                height=500,
+                margin=go.layout.Margin(
+                    l=50,
+                    r=50,
+                    b=25,
+                    t=25,
+                    pad=4
+                        )
+                )
                     
         },include_plotlyjs=False, output_type='div',auto_open=False, config={"displayModeBar": False},show_link=False)
 
@@ -98,7 +121,88 @@ class PlotlyPlots:
             )
             ],
 
-            "layout" : go.Layout(title = "Communities with the Most Rental Listings")
+            "layout" : go.Layout(
+                autosize=False,
+                width=400,
+                height=400,
+                legend=dict(orientation="h"),
+                margin=go.layout.Margin(
+                    l=5,
+                    r=5,
+                    b=5,
+                    t=5,
+                    pad=1
+                        )
+                )
+                    
+        },include_plotlyjs=False, output_type='div',auto_open=False, config={"displayModeBar": False},show_link=False)
+
+        return a
+
+    def corr_heatmap(self):
+
+
+        corr = self.df.corr()
+
+
+        colorscale = [[0, '#edf8fb'], [.3, '#b3cde3'],  [.6, '#8856a7'],  [1, '#810f7c']]
+
+        # heatmap = go.Heatmap(z=corr.as_matrix(), x=corr.columns, y=corr.index, colorscale=colorscale)
+        # data = [heatmap]
+        # py.iplot(data, filename='basic-heatmap')
+
+
+        a = plotly.offline.plot({
+            "data" : [
+            go.Heatmap(
+                z = corr.values,
+                x = corr.columns, 
+                y = corr.index, 
+                colorscale=colorscale
+
+            )
+            ],
+
+            "layout" : go.Layout(
+                autosize=False,
+                width=500,
+                height=500,
+                margin=go.layout.Margin(
+                    l=50,
+                    r=50,
+                    b=50,
+                    t=50,
+                    pad=10
+                        )
+                )
+                    
+        },include_plotlyjs=False, output_type='div',auto_open=False, config={"displayModeBar": False},show_link=False)
+
+        return a
+
+
+    def hist(self):
+
+        data = self.df['price']
+
+        a = plotly.offline.plot({
+            "data" : [
+            go.Histogram(
+                x=self.df1["price"]
+            )
+            ],
+
+            "layout" : go.Layout(
+                xaxis= dict(title= 'Price',ticklen= 5,zeroline= False,automargin = True),
+                yaxis= dict(title= 'Frequency',ticklen= 5,zeroline= False,automargin = True),
+                margin=go.layout.Margin(
+                    l=50,
+                    r=50,
+                    b=25,
+                    t=25,
+                    pad=4
+                        )
+                )
                     
         },include_plotlyjs=False, output_type='div',auto_open=False, config={"displayModeBar": False},show_link=False)
 
