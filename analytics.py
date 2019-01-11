@@ -23,45 +23,6 @@ PATHS = {
 logging.basicConfig(filename='app.log', filemode='w', level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
-def main(df):
-
-    # Location Map
-    # Create a folium map object
-    mp = folium.Map([51.0486, -114.0708], zoom_start=10)
-
-    # Pass the folium map to the user defined LocationMap class
-    heat_map = lm.LocationMap("Folium heat map", mp)
-
-    # Add the data to the map
-    heat_map.shape_mark(df)
-
-    # Save the map
-    heat_map.fmap.save(PATHS['heatmap']+"calgary_heat_map.html")
-
-    # There are clearly a lot of outliers in the 'price' column, we shall remove them
-    # keep rows that are within +3 to -3 standard deviations in the column 'Price'
-    df =  df[np.abs(df.price-df.price.mean()) <= (3 * df.price.std())]
-
-    # Instantiate Objects
-    sp = StaticPlot.StaticPlot(df,PATHS['write'])
-    ply = PlotlyPlots.PlotlyPlots(df,PATHS['write'])
-
-    sp.bar_community()
-    sp.boxplot_price_quadrant()
-    sp.distplot_price()
-    sp.corr_heat()
-
-    ply.bar_community()
-    ply.box_price_quadrant()
-    ply.distplot()
-
-    print(df['location'].value_counts())
-
-    # Examine the distribution
-    print("Mean Price: {} ".format(df['price'].mean()))
-    print("Kurtosis: {} ".format(df['price'].kurtosis()))
-    print("Skew: {}".format(df['price'].skew()))
-    # # Normally Distributed? I guess...
 
 def visuals(df):
 
@@ -69,7 +30,7 @@ def visuals(df):
 
     # Location Map
     # Create a folium map object
-    mp = folium.Map([51.0486, -114.0708], zoom_start=10)
+    mp = folium.Map([51.0486, -114.0708], zoom_start=14)
 
     # Pass the folium map to the user defined LocationMap class
     heat_map = lm.LocationMap("Folium heat map", mp)
@@ -78,32 +39,38 @@ def visuals(df):
     heat_map.shape_mark(df)
 
     # Save the map
-    #heat_map.fmap.save(PATHS['write']+"calgary_heat_map.html")
     heat_map.fmap.save(PATHS['heatmap']+"calgary_heat_map.html")
 
-    # Instantiate Objects
-    sp = StaticPlot.StaticPlot(df,PATHS['write'])
+    # Plots
     ply = PlotlyPlots.PlotlyPlots(df,PATHS['write'])
 
-    sp.bar_community()
-    dynamic_bar_community = ply.bar_community()
-
-    sp.boxplot_price_quadrant()
-    sp.distplot_price()
-    sp.corr_heat()
-
     dynamic_box_price = ply.box_price_quadrant()
-    dynamic_dist_price = ply.distplot()
-    dynamic_bar_price_community = ply.bar_price_community()
+    dynamic_scatter_price_community = ply.scatter_price_community()
     dynamic_pie_community = ply.pie_community()
-    
+    dynamic_heat = ply.corr_heatmap()
+    dynamic_hist = ply.hist()
+
+
+    # Metics
+
+    mean_price = df['price'].mean()
+    quantity = len(df.index)
+    agg_prices = df.groupby('type', as_index=False)['price'].mean()
+
+    agg_prices.set_index('type', inplace = True)
+
+
+
     data = {}
 
-    data['dynamic_bar_community'] = str(dynamic_bar_community)
     data['dynamic_box_price'] = str(dynamic_box_price)
-    data['dynamic_dist_price'] = str(dynamic_dist_price)
-    data['dynamic_bar_price_community'] = str(dynamic_bar_price_community)
+    data['dynamic_scatter_price_community'] = str(dynamic_scatter_price_community)
     data['dynamic_pie_community'] = str(dynamic_pie_community)
+    data['dynamic_heat'] = str(dynamic_heat)
+    data['dynamic_hist'] = str(dynamic_hist)
+    data['agg_prices'] = agg_prices.to_json(orient = 'index')
+    data['mean_price'] = mean_price
+    data['total_listings'] = quantity
 
 
     with open(PATHS['write'] + 'plots.json', 'w') as outfile:
@@ -117,9 +84,5 @@ if __name__ == "__main__":
     get = q.Query(conn)
 
     df = get.data_for_analysis()
-
-    #print(df['location'].value_counts())
-
-    #df_ = df.groupby('community', as_index=False)['price'].mean()
 
     visuals(df)
