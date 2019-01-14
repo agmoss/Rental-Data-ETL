@@ -8,7 +8,9 @@ __pycache__
 .idea/
 .pytest_cache
 
-public/charts/**/*.*
+
+public/charts
+public/data
 djsite/rental/templates/rental/calgary_heat_map.html
 
 .vs

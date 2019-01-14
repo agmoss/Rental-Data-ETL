@@ -4,11 +4,11 @@ import plotly.figure_factory as ff
 
 import numpy as np
 
+
 class PlotlyPlots:
 
-    def __init__(self,df,write_path):
+    def __init__(self,df):
         self.df = df
-        self.write_path = write_path
         # keep rows that are within +3 to -3 standard deviations in the column 'Price'
         self.df1 =  df[np.abs(df.price-df.price.mean()) <= (3 * df.price.std())]
 
@@ -146,11 +146,6 @@ class PlotlyPlots:
 
 
         colorscale = [[0, '#edf8fb'], [.3, '#b3cde3'],  [.6, '#8856a7'],  [1, '#810f7c']]
-
-        # heatmap = go.Heatmap(z=corr.as_matrix(), x=corr.columns, y=corr.index, colorscale=colorscale)
-        # data = [heatmap]
-        # py.iplot(data, filename='basic-heatmap')
-
 
         a = plotly.offline.plot({
             "data" : [
