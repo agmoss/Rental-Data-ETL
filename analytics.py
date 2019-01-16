@@ -1,18 +1,22 @@
+# Standard library imports
 import logging
-import numpy as np
 import time
-import pandas as pd
-import mysql.connector
-import folium
 import json
 import os
 
-from scripts import Query as q
-from scripts import Database
-from scripts import LocationMap as lm
+# Third party imports
+import numpy as np
+import pandas as pd
+import mysql.connector
+import folium
 
-from scripts import StaticPlot
-from scripts import PlotlyPlots
+# Local application imports
+import scripts.Query as q
+import scripts.Database as Database
+import scripts.LocationMap as lm
+
+import scripts.StaticPlot as StaticPlot
+import scripts.PlotlyPlots as PlotlyPlots
 
 import definitions
 
