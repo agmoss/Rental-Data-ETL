@@ -9,7 +9,6 @@ PATHS = {
 
 }
 
-# Make this work somehow
-
+# Make the dirs 
 for key, value in PATHS.items():
     os.makedirs(os.path.dirname(value), exist_ok=True)

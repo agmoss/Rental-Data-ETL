@@ -1,16 +1,20 @@
+# Standard library imports
 import logging
-import pandas as pd
 import re
-import schedule
 import functools
 import time
 from time import gmtime, strftime
 import sys
-import mysql.connector
 
-from scripts import Database
-from scripts import Accessor
-from scripts import Rental
+# Third party imports
+import mysql.connector
+import schedule
+import pandas as pd
+
+# Local application imports
+import scripts.Database as Database
+import scripts.Accessor as Accessor
+import scripts.Rental as Rental
 
 
 """ Function wrappers for main() """
