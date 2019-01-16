@@ -1,16 +1,52 @@
 import logging
 import pandas as pd
 import re
+import schedule
+import functools
+import time
+from time import gmtime, strftime
+import sys
+import mysql.connector
 
 from scripts import Database
 from scripts import Accessor
 from scripts import Rental
 
-import mysql.connector
 
+""" Function wrappers for main() """
 
+# Continue running if there is an exception in the main method
+def catch_exceptions(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except:
+            import traceback
+            logging.info(traceback.format_exc())
+            #return schedule.CancelJob  # Cancels the job if there is an exception
+    return wrapper
+    
+# Logging decorator for scheduled function
+def with_logging(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        logging.info('LOG: Running job "%s"' % func.__name__)
+        func(*args, **kwargs)
+        logging.info('LOG: Job "%s" completed' % func.__name__)
+    return wrapper
+
+@catch_exceptions
+@with_logging
 def main():
-    """Extract, Transform, Load"""
+    """
+    Extract, Transform, Load
+
+    Access each RentFaster.ca API page individually and store the results in MySQL. 
+
+    Built in data cleaning, duplicate entry checking, database error handling, and scheduling.
+    
+    """
 
     logging.basicConfig(filename='app.log', filemode='w', level=logging.INFO,
                         format='%(asctime)s - %(levelname)s - %(message)s')
@@ -60,7 +96,6 @@ def main():
                     listing['retrieval_date'] = pd.to_datetime('today').strftime("%m/%d/%Y")
 
                     # Add position
-
                     listing['position'] = "active"
 
                     # --- Data Cleaning ---
@@ -151,6 +186,13 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    schedule.every().day.at("9:18").do(main)
+
+    while True:
+        sys.stdout.write("\r{0}".format(strftime("%Y-%m-%d %H:%M:%S", gmtime())))
+        sys.stdout.flush()
+        schedule.run_pending()
+        time.sleep(1)
     # TODO: Handle raised exceptions
     # TODO: Write tests
+    # TODO: Notification of crash
