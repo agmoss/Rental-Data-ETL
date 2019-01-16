@@ -14,11 +14,8 @@ from scripts import LocationMap as lm
 from scripts import StaticPlot
 from scripts import PlotlyPlots
 
-PATHS = {
-    "write": "public/charts/",
-    "heatmap" : "djsite/rental/templates/rental/",
-    "read":""
-}
+import definitions
+
 
 logging.basicConfig(filename='app.log', filemode='w', level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s')
@@ -26,7 +23,7 @@ logging.basicConfig(filename='app.log', filemode='w', level=logging.INFO,
 
 def visuals(df):
 
-    os.makedirs(os.path.dirname(PATHS['write']), exist_ok=True)
+    #os.makedirs(os.path.dirname(definitions.PATHS['write_visuals']), exist_ok=True)
 
     # Location Map
     # Create a folium map object
@@ -39,10 +36,10 @@ def visuals(df):
     heat_map.shape_mark(df)
 
     # Save the map
-    heat_map.fmap.save(PATHS['heatmap']+"calgary_heat_map.html")
+    heat_map.fmap.save(os.path.join(definitions.PATHS['write_heatmap'], "calgary_heat_map.html"))
 
     # Plots
-    ply = PlotlyPlots.PlotlyPlots(df,PATHS['write'])
+    ply = PlotlyPlots.PlotlyPlots(df)
 
     dynamic_box_price = ply.box_price_quadrant()
     dynamic_scatter_price_community = ply.scatter_price_community()
@@ -52,14 +49,11 @@ def visuals(df):
 
 
     # Metics
-
     mean_price = df['price'].mean()
     quantity = len(df.index)
     agg_prices = df.groupby('type', as_index=False)['price'].mean()
 
     agg_prices.set_index('type', inplace = True)
-
-
 
     data = {}
 
@@ -73,7 +67,7 @@ def visuals(df):
     data['total_listings'] = quantity
 
 
-    with open(PATHS['write'] + 'plots.json', 'w') as outfile:
+    with open(os.path.join(definitions.PATHS['write_visuals'] ,'plots.json'), 'w') as outfile:
         json.dump(data, outfile)
 
 
@@ -86,3 +80,5 @@ if __name__ == "__main__":
     df = get.data_for_analysis()
 
     visuals(df)
+
+    df.to_csv(os.path.join(definitions.PATHS['write_data'], "data.csv"))
