@@ -2,6 +2,11 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.conf import settings # For file paths
 
+# Testing
+from django.db import connections
+from django.db.models import Count
+from django.http import JsonResponse
+
 import json
 import os
 
@@ -53,3 +58,22 @@ def calgary_heat_map(request):
     }
 
     return render(request,'rental/calgary_heat_map.html',title)
+
+
+# Testing
+
+from rental.models import RentalData
+
+def box_chart(request):
+    return render(request, 'graph/graph.html')
+
+
+def box_data(request):
+
+    from django.core import serializers
+
+    data = list(RentalData.objects.using('rental_data').values())
+
+    return JsonResponse(data, safe=False)  # or JsonResponse({'data': data})
+
+
