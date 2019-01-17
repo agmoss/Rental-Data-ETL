@@ -65,15 +65,19 @@ def calgary_heat_map(request):
 from rental.models import RentalData
 
 def box_chart(request):
-    return render(request, 'graph/graph.html')
+    return render(request, 'rental/graph_test.html')
 
 
 def box_data(request):
 
     from django.core import serializers
 
-    data = list(RentalData.objects.using('rental_data').values())
+    entries = RentalData.objects.only('community').using('rental_data')
 
-    return JsonResponse(data, safe=False)  # or JsonResponse({'data': data})
+    entries = list(entries.values())
+
+    #data = list(RentalData.objects.using('rental_data').values())
+
+    return JsonResponse(entries, safe=False)  # or JsonResponse({'data': data})
 
 
