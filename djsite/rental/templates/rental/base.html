@@ -20,6 +20,7 @@
 
     <!-- d3 CDN -->
     <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
 
     <!-- Plotly CDN -->
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> 
@@ -28,9 +29,11 @@
     {% load static %}
     <link rel="stylesheet" href="{% static "rental/sb-admin.css" %}" type="text/css">
 
-    <!-- custom style for the bar chart -->
-    {% load static %}
-    <link rel="stylesheet" href="{% static "rental/bar_style.css" %}" type="text/css">
+    <!-- C3 CDN -->
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/c3/0.1.29/c3.js"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/c3/0.1.29/c3.css" rel="stylesheet" type="text/css">
+
 
   </head>
 
@@ -66,6 +69,12 @@
           <a class="nav-link" href="/dashboard">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/analytics">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Analytics</span>
           </a>
         </li>
         <li class="nav-item">

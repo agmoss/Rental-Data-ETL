@@ -10,7 +10,7 @@
           </div>
           {% block meanprice %}
             {% autoescape off %}
-              <div class = "mr-5"> Mean Price: {{ data.mean_price }} </div>
+              <div class = "mr-5">  </div>
             {% endautoescape %}
           {% endblock %}
           <!-- <div class="mr-5">26 New Messages!</div> -->
@@ -25,7 +25,7 @@
           </div>
           {% block total_listings %}
             {% autoescape off %}
-              <div class = "mr-5"> Total Listings: {{ data.total_listings }} </div>
+              <div class = "mr-5">  </div>
             {% endautoescape %}
           {% endblock %}
         </div>
@@ -39,7 +39,7 @@
           </div>
           {% block agg_prices %}
             {% autoescape off %}
-              <div class = "mr-5"> {{ data.agg_prices}} </div>
+              <div class = "mr-5">  </div>
             {% endautoescape %}
           {% endblock %}
         </div>
@@ -57,202 +57,17 @@
     </div>
   </div>
 
-  <!-- Charts -->
-  <div class="container-fluid">
-    <div class = "row">
-      <div class = "col-8 d-flex align-items-stretch">
-        <!-- Boxplot Price-->
-        <div class="card mb-3">
-          <div class="card-header">
-            <i class="fas fa-chart-area"></i>
-            Chart Title</div>
-          <div class="card-body">
-            {% block chart3 %}
-              {% autoescape off %}
-                <div>{{ data.dynamic_scatter_price_community }} </div>
-              {% endautoescape %}
-            {% endblock %}
-          </div>
-          <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-        </div>
-      </div>
-      <div class = "col-4 d-flex align-items-stretch">
-        <!-- barchart community -->
-        <div class="card mb-3">
-          <div class="card-header">
-            <i class="fas fa-chart-area"></i>
-            Chart Title</div>
-          <div class="card-body">
-            {% block chart12 %}
-              {% autoescape off %}
-                <div>{{ data.dynamic_pie_community }} </div>
-              {% endautoescape %}
-            {% endblock %}
-          </div>
-          <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class = "row">
-    <div class = "col">
-      <!-- Boxplot Price-->
-      <div class="card mb-3">
-        <div class="card-header">
-          <i class="fas fa-chart-area"></i>
-          Chart Title</div>
-        <div class="card-body">
-          {% block chart2 %}
-            {% autoescape off %}
-              <div>{{ data.dynamic_box_price }} </div>
-            {% endautoescape %}
-          {% endblock %}
-        </div>
-        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-      </div>
-    </div>
-  </div>
+  <div id="chart"></div>
 
+  {% load static %}
+  <script src="{% static "rental/bar.js" %}" type="text/javascript"></script>
 
-  <!-- heatmap -->
-  <div class = "row">
-    <div class = "col-6">
-      <!-- Boxplot Price-->
-      <div class="card mb-3">
-        <div class="card-header">
-          <i class="fas fa-chart-area"></i>
-          Chart Title</div>
-        <div class="card-body">
-          {% block chart32 %}
-            {% autoescape off %}
-              <div>{{ data.dynamic_heat }} </div>
-            {% endautoescape %}
-          {% endblock %}
-        </div>
-        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-      </div>
-    </div>
+  <div id="chart2"></div>
 
-    <div class = "col-6">
-      <!-- Boxplot Price-->
-      <div class="card mb-3">
-        <div class="card-header">
-          <i class="fas fa-chart-area"></i>
-          Chart Title</div>
-        <div class="card-body">
-          {% block chart56 %}
-            {% autoescape off %}
-              <div>{{ data.dynamic_hist }} </div>
-            {% endautoescape %}
-          {% endblock %}
-        </div>
-        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-      </div>
-    </div>
+  {% load static %}
+  <script src="{% static "rental/pie.js" %}" type="text/javascript"></script>
 
-
-    <div class = "col-6">
-      <!-- Boxplot Price-->
-      <div class="card mb-3">
-        <div class="card-header">
-          <i class="fas fa-chart-area"></i>
-          Chart Title</div>
-          <section onload="createBar()">
-              <div class="card-body" id = "svg"></div>
-
-              <script>
-              // set the dimensions of the canvas
-            var margin = {top: 20, right: 20, bottom: 70, left: 40},
-              width = 1200 - margin.left - margin.right,
-              height = 800 - margin.top - margin.bottom;
-
-
-            // set the ranges
-            var x = d3.scale.ordinal().rangeRoundBands([0, width], .1);
-
-            var y = d3.scale.linear().range([height, 0]);
-
-            // define the axis
-            var xAxis = d3.svg.axis()
-              .scale(x)
-              .orient("bottom")
-
-
-            var yAxis = d3.svg.axis()
-              .scale(y)
-              .orient("left")
-              .ticks(10);              
-                          
-            // add the SVG element
-            var svg = d3.select("#svg").append("svg")
-              .attr("width", width + margin.left + margin.right)
-              .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-              .attr("transform", 
-                    "translate(" + margin.left + "," + margin.top + ")");
-
-
-            // load the data
-            d3.json("{% url 'box_data' %}", function(error, data) {
-
-              data.forEach(function(d) {
-                  d.community = d.community;
-                  d.dcount = +d.dcount;
-              });
-
-            // scale the range of the data
-            x.domain(data.map(function(d) { return d.community; }));
-            y.domain([0, d3.max(data, function(d) { return d.dcount; })]);
-
-            // add axis
-            svg.append("g")
-                .attr("class", "x axis")
-                .attr("transform", "translate(0," + height + ")")
-                .call(xAxis)
-              .selectAll("text")
-                .style("text-anchor", "end")
-                .attr("dx", "-.8em")
-                .attr("dy", "-.55em")
-                .attr("transform", "rotate(-90)" );
-
-            svg.append("g")
-                .attr("class", "y axis")
-                .call(yAxis)
-              .append("text")
-                .attr("transform", "rotate(-90)")
-                .attr("y", 5)
-                .attr("dy", ".71em")
-                .style("text-anchor", "end")
-                .text("Frequency");
-
-
-            // Add bar chart
-            svg.selectAll("bar")
-                .data(data)
-              .enter().append("rect")
-                .attr("class", "bar")
-                .attr("x", function(d) { return x(d.community); })
-                .attr("width", x.rangeBand())
-                .attr("y", function(d) { return y(d.dcount); })
-                .attr("height", function(d) { return height - y(d.dcount); });
-
-            });
-
-            </script>
-
-          </section>
-
-          {% load static %}
-          <!-- <script src="{% static "rental/bar.js" %}" type="text/javascript"></script> -->
-        
-            
-        </div>
-        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-      </div>
-    </div>
-
-  </div>
 
 {% endblock content %}
  
