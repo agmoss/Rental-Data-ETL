@@ -149,3 +149,13 @@ def corr_data(request):
     }
 
     return JsonResponse(data, safe=False) 
+
+def map_data(request):
+    """ JSON API """
+
+    data = list(
+        RentalData.objects.using('rental_data')
+        .values('latitude','longitude')
+        )
+
+    return JsonResponse(data, safe=False)  
