@@ -14,6 +14,7 @@ from django.core import serializers
 import json
 import os
 import folium
+import pandas as pd
 
 
 def index(request):
@@ -22,13 +23,7 @@ def index(request):
         'title' : 'Dashboard'
     }
 
-    #file_path = os.path.join(settings.VISUALS_DIR, 'plots.json')
-
-    # with open(file_path) as f:
-    #     data = json.load(f)
-
     return render(request,'rental/index.html', {'title': title })
-
 
 def analytics(request):
 
@@ -68,7 +63,6 @@ def map(request):
 
     return render(request,'rental/map.html',title)
 
-
 def calgary_heat_map(request):
     
     title = {
@@ -76,7 +70,6 @@ def calgary_heat_map(request):
     }
 
     return render(request,'rental/calgary_heat_map.html',title)
-
 
 def pie_data(request):
     """ JSON API """
@@ -107,8 +100,52 @@ def scatter_data(request):
         RentalData.objects.using('rental_data')
         .values('community')
         .annotate(Avg('price'))
-        #.order_by('-price')
-
+        .order_by('-price__avg')
         )
 
-    return JsonResponse(data, safe=False)  # or JsonResponse({'data': data})
+    return JsonResponse(data, safe=False) 
+
+def hist_data(request):
+    """ JSON API """
+
+    data = list(
+        RentalData.objects.using('rental_data')
+        .values('price')
+        )
+
+    return JsonResponse(data, safe=False)  
+
+
+def box_data(request):
+    """ JSON API """
+
+    data = list(
+        RentalData.objects.using('rental_data')
+        .values('quadrant','price')
+        )
+
+    return JsonResponse(data, safe=False)  
+
+def corr_data(request):
+    """ JSON API """
+
+    df = pd.DataFrame(
+        list(
+            RentalData.objects.using('rental_data')
+            # TODO: Convert values to numeric...
+            .values('price','_type','sq_feet','location','community','quadrant','bedrooms','den','baths','cats','dogs','utilities_included')
+            )
+        )
+
+    corr = df.corr()
+    z = corr.values.tolist()
+    x = corr.columns.tolist()
+    y = corr.index.tolist()
+
+    data =  {
+            "zValues" : z,
+            "xValues" : x,
+            "yValues" : y,
+    }
+
+    return JsonResponse(data, safe=False) 

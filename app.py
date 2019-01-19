@@ -190,7 +190,9 @@ def main():
 
 
 if __name__ == "__main__":
-    schedule.every().day.at("9:18").do(main)
+
+
+    schedule.every().day.at("14:00").do(main)
 
     while True:
         sys.stdout.write("\r{0}".format(strftime("%Y-%m-%d %H:%M:%S", gmtime())))

@@ -1,17 +1,32 @@
-d3.json("http://127.0.0.1:8000/api/pie_data", function(data) {
+Plotly.d3.json('http://127.0.0.1:8000/api/pie_data', function(data){
 
-    var convertedData = [];
+    let xData = [];
+    let yData = [];
+    
+
+    var colors = ['rgba(93, 164, 214, 0.5)', 'rgba(255, 144, 14, 0.5)', 'rgba(44, 160, 101, 0.5)', 'rgba(255, 65, 54, 0.5)', 'rgba(207, 114, 255, 0.5)', 'rgba(127, 96, 0, 0.5)', 'rgba(255, 140, 184, 0.5)', 'rgba(79, 90, 117, 0.5)', 'rgba(222, 223, 0, 0.5)'];
+      
     data.forEach(function(item){
-    convertedData.push([item.community, item.dcount]);
-    });
-    
-    var chart = c3.generate({
-    bindto : '#chart2',
-    data: {
-        columns: convertedData,
-        type: 'pie'
-    },
-    
+
+        xData.push(item.community);
+        yData.push(item.dcount);
+
     });
 
-});
+
+    let trace = {
+        labels: xData,
+        values: yData,
+
+        marker: {
+            colors: colors},
+            type:'pie',
+        }
+
+    let layout = {
+        title: "Rental Listings per Community",
+    }
+
+    Plotly.plot(document.getElementById("pie_chart"), [trace], layout,  {displayModeBar: false}); 
+
+})

@@ -29,11 +29,11 @@ All tests should pass before running app.py.
 ## Built With
 
 * [Django](https://www.djangoproject.com/) - Web framework
-* [Plotly](https://plot.ly/python/) - Open source graphing library
-* [Seaborn](https://seaborn.pydata.org/) - Statistical data visualization
+* [Plotly.js](https://plot.ly/javascript/) - Plotly Javascript Open Source Graphing Library
 * [Requests](http://docs.python-requests.org/en/master/) - HTTP library 
-* [Pandas](https://www.crummy.com/software/BeautifulSoup/) - Dataframe object
+* [Pandas](https://pandas.pydata.org/) - Python data analysis library
 * [mysql-connector-python](https://pypi.org/project/mysql-connector-python/) - MySQL driver written in python
+* [Schedule](https://pypi.org/project/schedule/) - Python job scheduling for humans.
 * [Start Bootstrap - SB Admin](https://github.com/BlackrockDigital/startbootstrap-sb-admin) - Open source bootstrap template
 
 ## Contributing
