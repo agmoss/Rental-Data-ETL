@@ -10,7 +10,7 @@
           </div>
           {% block meanprice %}
             {% autoescape off %}
-              <div class = "mr-5"> Mean Price: {{ data.mean_price }} </div>
+              <div class = "mr-5">  </div>
             {% endautoescape %}
           {% endblock %}
           <!-- <div class="mr-5">26 New Messages!</div> -->
@@ -25,7 +25,7 @@
           </div>
           {% block total_listings %}
             {% autoescape off %}
-              <div class = "mr-5"> Total Listings: {{ data.total_listings }} </div>
+              <div class = "mr-5">  </div>
             {% endautoescape %}
           {% endblock %}
         </div>
@@ -39,7 +39,7 @@
           </div>
           {% block agg_prices %}
             {% autoescape off %}
-              <div class = "mr-5"> {{ data.agg_prices}} </div>
+              <div class = "mr-5">  </div>
             {% endautoescape %}
           {% endblock %}
         </div>
@@ -57,100 +57,17 @@
     </div>
   </div>
 
-  <!-- Charts -->
-  <div class="container-fluid">
-    <div class = "row">
-      <div class = "col-8 d-flex align-items-stretch">
-        <!-- Boxplot Price-->
-        <div class="card mb-3">
-          <div class="card-header">
-            <i class="fas fa-chart-area"></i>
-            Chart Title</div>
-          <div class="card-body">
-            {% block chart3 %}
-              {% autoescape off %}
-                <div>{{ data.dynamic_scatter_price_community }} </div>
-              {% endautoescape %}
-            {% endblock %}
-          </div>
-          <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-        </div>
-      </div>
-      <div class = "col-4 d-flex align-items-stretch">
-        <!-- barchart community -->
-        <div class="card mb-3">
-          <div class="card-header">
-            <i class="fas fa-chart-area"></i>
-            Chart Title</div>
-          <div class="card-body">
-            {% block chart12 %}
-              {% autoescape off %}
-                <div>{{ data.dynamic_pie_community }} </div>
-              {% endautoescape %}
-            {% endblock %}
-          </div>
-          <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class = "row">
-    <div class = "col">
-      <!-- Boxplot Price-->
-      <div class="card mb-3">
-        <div class="card-header">
-          <i class="fas fa-chart-area"></i>
-          Chart Title</div>
-        <div class="card-body">
-          {% block chart2 %}
-            {% autoescape off %}
-              <div>{{ data.dynamic_box_price }} </div>
-            {% endautoescape %}
-          {% endblock %}
-        </div>
-        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-      </div>
-    </div>
-  </div>
+  <div id="chart"></div>
 
+  {% load static %}
+  <script src="{% static "rental/bar.js" %}" type="text/javascript"></script>
 
-  <!-- heatmap -->
-  <div class = "row">
-    <div class = "col-6">
-      <!-- Boxplot Price-->
-      <div class="card mb-3">
-        <div class="card-header">
-          <i class="fas fa-chart-area"></i>
-          Chart Title</div>
-        <div class="card-body">
-          {% block chart32 %}
-            {% autoescape off %}
-              <div>{{ data.dynamic_heat }} </div>
-            {% endautoescape %}
-          {% endblock %}
-        </div>
-        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-      </div>
-    </div>
+  <div id="chart2"></div>
 
-    <div class = "col-6">
-      <!-- Boxplot Price-->
-      <div class="card mb-3">
-        <div class="card-header">
-          <i class="fas fa-chart-area"></i>
-          Chart Title</div>
-        <div class="card-body">
-          {% block chart56 %}
-            {% autoescape off %}
-              <div>{{ data.dynamic_hist }} </div>
-            {% endautoescape %}
-          {% endblock %}
-        </div>
-        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-      </div>
-    </div>
-  </div>
+  {% load static %}
+  <script src="{% static "rental/pie.js" %}" type="text/javascript"></script>
+
 
 {% endblock content %}
  
