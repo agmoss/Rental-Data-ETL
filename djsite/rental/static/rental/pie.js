@@ -13,7 +13,6 @@ Plotly.d3.json('http://127.0.0.1:8000/api/pie_data', function(data){
 
     });
 
-
     let trace = {
         labels: xData,
         values: yData,
@@ -24,7 +23,27 @@ Plotly.d3.json('http://127.0.0.1:8000/api/pie_data', function(data){
         }
 
     let layout = {
-        title: "Rental Listings per Community",
+        //title: "Rental Listings per Community",
+        plot_bgcolor:customPlotLayout.background.plotBackgroundColor,
+        paper_bgcolor:customPlotLayout.background.paperBackgroundColor,
+        legend: {
+            x: 1,
+            y: 0.5,
+            traceorder: 'normal',
+            font: {
+                family: customPlotLayout.axis.axisFont,
+                size: customPlotLayout.axis.axisTickSize,
+                color: customPlotLayout.axis.axisColor
+              }
+          },
+
+          margin: {
+            l: 50,
+            r: 10,
+            b: 50,
+            t: 1,
+            pad: 4
+          },
     }
 
     Plotly.plot(document.getElementById("pie_chart"), [trace], layout,  {displayModeBar: false}); 

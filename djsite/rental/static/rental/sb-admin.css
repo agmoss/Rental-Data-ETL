@@ -58,11 +58,11 @@ body.fixed-nav.sidebar-toggled #content-wrapper {
 }
 
 .scroll-to-top:focus, .scroll-to-top:hover {
-  color: white;
+  color: rgba(52, 58, 64, 0.5);
 }
 
 .scroll-to-top:hover {
-  background: #343a40;
+  background: rgba(52, 58, 64, 0.5);
 }
 
 .scroll-to-top i {
@@ -350,7 +350,7 @@ footer.sticky-footer {
   bottom: 0;
   width: calc(100% - 90px);
   height: 80px;
-  background-color: #e9ecef;
+  background-color: #343a40;
 }
 
 footer.sticky-footer .copyright {

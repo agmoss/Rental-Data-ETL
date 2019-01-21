@@ -24,19 +24,45 @@ Plotly.d3.json('http://127.0.0.1:8000/api/corr_data', function(error,data){
     }]
 
     var layout = {
-        title: 'Correlation',
+        //title: 'Correlation',
         annotations: [],
-        xaxis: {
-          ticks: '',
-          side: 'top'
-        },
         yaxis: {
           ticks: '',
-          ticksuffix: ' ',
-          width: 700,
-          height: 700,
-          autosize: false
-        }
+          title: {
+            text: 'y Axis',
+            font: {
+              family: customPlotLayout.axis.axisFont,
+              size: customPlotLayout.axis.axisTitleSize,
+              color: customPlotLayout.axis.axisColor,
+            }
+          },
+          tickcolor: customPlotLayout.axis.axisColor,
+          tickfont: {
+              family: customPlotLayout.axis.axisFont,
+              size: 14,
+              color: customPlotLayout.axis.axisColor
+            },
+        },
+        xaxis: {
+          ticks: '',
+          side: 'top',
+          title: {
+            text: 'x Axis',
+            font: {
+              family: customPlotLayout.axis.axisFont,
+              size: customPlotLayout.axis.axisTitleSize,
+              color: customPlotLayout.axis.axisColor,
+            }
+          },
+          tickcolor: customPlotLayout.axis.axisColor,
+          tickfont: {
+              family: customPlotLayout.axis.axisFont,
+              size: 14,
+              color: customPlotLayout.axis.axisColor
+            },
+        },
+        plot_bgcolor:customPlotLayout.background.plotBackgroundColor,
+        paper_bgcolor:customPlotLayout.background.paperBackgroundColor,
       };
 
     Plotly.plot(document.getElementById("heat"), d, layout, {displayModeBar: false}); 

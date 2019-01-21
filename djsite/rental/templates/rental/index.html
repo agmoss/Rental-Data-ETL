@@ -32,27 +32,87 @@
     </div>
   </div>
 
-  <div id = "bar_chart"></div>  
 
+  <div class = "row">
+      <div class = "col-6">
+    <!-- Bar Chart-->
+    <div class="card mb-3">
+      <div class="card-header">
+        <i class="fas fa-chart-area"></i>
+        Title</div>
+      <div class="card-body">
+          <div id = "bar_chart"></div>
+      </div>
+      <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+    </div>
+    </div>
+
+    <div class = "col-6">
+    <!-- Pie Chart-->
+    <div class="card mb-3">
+      <div class="card-header">
+        <i class="fas fa-chart-area"></i>
+        Title</div>
+      <div class="card-body">
+          <div id = "pie_chart"></div> 
+      </div>
+      <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+    </div>
+    </div>
+  </div>
+
+  <!--BoxPlot-->
+  <div class="card mb-3">
+    <div class="card-header">
+      <i class="fas fa-chart-area"></i>
+      Title</div>
+    <div class="card-body">
+      <div id = "box_plot"></div> 
+    </div>
+    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+  </div>
+  
+  <div class = "row">
+      <div class = "col-6">
+
+  <!-- Histogram-->
+  <div class="card mb-3">
+    <div class="card-header">
+      <i class="fas fa-chart-area"></i>
+      Title</div>
+    <div class="card-body">
+        <div id = "histogram"></div> 
+    </div>
+    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+  </div>
+  </div>
+
+  <div class = "col-6">
+  <!-- HeatMap-->
+  <div class="card mb-3">
+    <div class="card-header">
+      <i class="fas fa-chart-area"></i>
+      Title</div>
+    <div class="card-body">
+        <div id = "heat"></div> 
+    </div>
+    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+  </div>
+  </div>
+
+
+  <!-- Chart Scripts -->
   {% load static %}
   <script src="{% static "rental/bar.js" %}" type="text/javascript"></script>
 
-  <div id = "pie_chart"></div> 
-  
   {% load static %}
   <script src="{% static "rental/pie.js" %}" type="text/javascript"></script>
 
-  <div id = "histogram"></div> 
-  
   {% load static %}
   <script src="{% static "rental/hist.js" %}" type="text/javascript"></script>
 
-  <div id = "box_plot"></div> 
-  
   {% load static %}
   <script src="{% static "rental/box.js" %}" type="text/javascript"></script>
-
-  <div id = "heat"></div> 
 
   {% load static %}
   <script src="{% static "rental/heat.js" %}" type="text/javascript"></script>
