@@ -112,7 +112,7 @@ def hist_data(request):
 
     data = list(
         RentalData.objects.using('rental_data')
-         .values('price')
+         .values('price','_type')
          )
 
     return JsonResponse(data, safe=False)  
@@ -123,7 +123,7 @@ def box_data(request):
 
     data = list(
         RentalData.objects.using('rental_data')
-        .values('quadrant','price')
+        .values('quadrant','price','_type')
         )
 
     return JsonResponse(data, safe=False)  

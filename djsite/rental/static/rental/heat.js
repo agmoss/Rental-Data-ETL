@@ -19,7 +19,7 @@ Plotly.d3.json('http://127.0.0.1:8000/api/corr_data', function(error,data){
         x: data.xValues,
         y: data.yValues,
         z: data.zValues,
-        colorscale: 'Greens',
+        colorscale: 'YIOrRd',
         type: 'heatmap',
     }]
 

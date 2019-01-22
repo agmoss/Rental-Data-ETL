@@ -11,3 +11,10 @@ body {
    background-color: rgb(10, 8, 8);
    color :rgb(127, 127, 127)
 } 
+
+
+#colortester{
+
+   color:rgba(255, 72, 0, 0.808)
+
+}

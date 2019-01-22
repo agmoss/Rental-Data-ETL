@@ -4,7 +4,7 @@ Plotly.d3.json('http://127.0.0.1:8000/api/pie_data', function(data){
     var alldcount = [] ;
     var allCommunity = []; 
     var listofTypes = []; // uniuque
-    var currentCountry;
+    var currentItem;
     var currentCommunity = []; // Data on current selection
     var currentdcount = []; // Data on current selection 
 
@@ -35,29 +35,27 @@ Plotly.d3.json('http://127.0.0.1:8000/api/pie_data', function(data){
         }
     };
 
-    // Default Country Data
-    setBubblePlot('Apartment');
-
     // Actual plotting function 
-    function setBubblePlot(chosenItem) {
+    function setPlot(chosenItem) {
         getTypeData(chosenItem);
 
         var trace1 = {
             labels: currentCommunity,
             values: currentdcount,           
             type:'pie',
-
+            textposition: 'inside',
         };
 
         var data = [trace1];
 
         let layout = {
-            //title: "Rental Listings per Community",
             plot_bgcolor:customPlotLayout.background.plotBackgroundColor,
             paper_bgcolor:customPlotLayout.background.paperBackgroundColor,
 
             showlegend : false,
-    
+
+            textinfo:'none',
+  
               margin: {
                 l: 5,
                 r: 5,
@@ -84,9 +82,12 @@ Plotly.d3.json('http://127.0.0.1:8000/api/pie_data', function(data){
     assignOptions(listofTypes, itemSelector);
 
     function updateSelection(){
-        setBubblePlot(itemSelector.value);
+        setPlot(itemSelector.value);
     }
 
     itemSelector.addEventListener('change', updateSelection, false);
+
+    // Default 
+    setPlot('Condo');
 
 });

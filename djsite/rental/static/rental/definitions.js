@@ -11,6 +11,10 @@ var customPlotLayout = {
     background: {
         plotBackgroundColor:"rgb(22, 22, 22)",
         paperBackgroundColor:"rgb(22, 22, 22)",
-    }
+    },
 
 };
+
+var colorScheme = {
+    primary :"rgba(255, 72, 0, 0.808)"
+}

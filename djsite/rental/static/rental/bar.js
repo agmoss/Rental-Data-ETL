@@ -4,7 +4,7 @@ Plotly.d3.json('http://127.0.0.1:8000/api/scatter_data', function(data){
     var allprice__avg = [] ;
     var allCommunity = []; 
     var listofTypes = []; // uniuque
-    var currentCountry;
+    var currentSelection;
     var currentCommunity = []; // Data on current selection
     var currentprice__avg = []; // Data on current selection 
 
@@ -24,11 +24,11 @@ Plotly.d3.json('http://127.0.0.1:8000/api/scatter_data', function(data){
     }
    
     // Gets current selection
-    function getTypeData(chosenCountry) {
+    function getTypeData(chosenItem) {
         currentCommunity = [];
         currentprice__avg = [];
         for (var i = 0 ; i < allTypeNames.length ; i++){
-            if ( allTypeNames[i] === chosenCountry ) {
+            if ( allTypeNames[i] === chosenItem ) {
                 currentCommunity.push(allCommunity[i]);
                 currentprice__avg.push(allprice__avg[i]);
             }
@@ -36,20 +36,20 @@ Plotly.d3.json('http://127.0.0.1:8000/api/scatter_data', function(data){
     };
 
     // Default Country Data
-    setBubblePlot('Apartment');
+    setPlot('Apartment');
 
     // Actual plotting function 
-    function setBubblePlot(chosenCountry) {
-        getTypeData(chosenCountry);
+    function setPlot(chosenItem) {
+        getTypeData(chosenItem);
 
         var trace1 = {
             x: currentprice__avg,
             y: currentCommunity,
             mode: 'markers',
+            type: 'bar',
             marker: {
-                color: 'rgba(44, 160, 101, 0.5)',
-                size: 12,
-                opacity: 0.5
+                color: colorScheme.primary,
+                //size: 12,
             }
         };
 
@@ -118,7 +118,7 @@ Plotly.d3.json('http://127.0.0.1:8000/api/scatter_data', function(data){
     assignOptions(listofTypes, itemSelector);
 
     function updateSelection(){
-        setBubblePlot(itemSelector.value);
+        setPlot(itemSelector.value);
     }
 
     itemSelector.addEventListener('change', updateSelection, false);

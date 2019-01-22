@@ -1,5 +1,6 @@
 {% extends "rental/base.html"%}
-{% block content %}
+{% block content %
+<!--TODO: Clean up tags-->
   <!-- Icon Cards-->
   <div class="row">
     <div class="col-xl-3 col-sm-6 mb-3">
@@ -35,20 +36,7 @@
 
   <div class = "row">
 
-      <div class = "col-3">
-          <!-- Bar Chart-->
-          <div class="card mb-3">
-            <div class="card-header">
-              <i class="fas fa-chart-area"></i>
-              Title</div>
-            <div class="card-body">
-                <!-- <div id = "bar_chart"></div> -->
-            </div>
-            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-          </div>
-        </div>
-
-    <div class = "col-6">
+    <div class = "col-9">
       <!-- Bar Chart-->
       <div class="card mb-3">
         <div class="card-header">
@@ -57,18 +45,14 @@
           <div class="card-body">
             <div id = "plotdiv"></div>
 
-              <div class="showcase__section" id="bubble">
-                  <div class="spacer --small"></div>
-                  <div id="bubbleplots">
-                    <div class="bubbleplot" data-num="0">
-                      <div class="plot" id="scatterplotdiv"></div>
-                      <div class="control-row">
-                        Type: <select class="selection">
-                        </select>
-                      </div>
-                    </div>
+              <div class="spacer --small"></div>
+                <div data-num="0">
+                  <div class="plot" id="scatterplotdiv"></div>
+                  <div class="control-row">
+                    Type: <select class="selection">
+                    </select>
                   </div>
-                </div>
+              </div>
 
             <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
           </div>
@@ -84,20 +68,16 @@
         <div class="card-body">
             <div id = "pie_chart"></div> 
 
-            <div class="showcase__section" id="bubble">
-                <div class="spacer --small"></div>
-                <div id="pieplots">
-                  <div class="pieplot" data-num="1">
-                    <div class="plot" id="pieplotdiv"></div>
-                    <div class="control-row">
-                      Type: <select class="selection">
-                      </select>
-                    </div>
+              <div class="spacer --small"></div>
+                <div data-num="1">
+                  <div class="plot" id="pieplotdiv"></div>
+                  <div class="control-row">
+                    Type: <select class="selection">
+                    </select>
                   </div>
-                </div>
               </div>
 
-        </div>
+            </div>
         <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
       </div>
     </div>
@@ -105,42 +85,46 @@
 
   <!--BoxPlot-->
   <div class="card mb-3">
-    <div class="card-header">
-      <i class="fas fa-chart-area"></i>
-      Title</div>
+    <div class="card-header"><i class="fas fa-chart-area"></i>Price Distribution per City Quadrant</div>
     <div class="card-body">
       <div id = "box_plot"></div> 
-    </div>
+        <div class="spacer --small"></div>
+          <div data-num="2">
+            <div class="plot" id="boxplotdiv"></div>
+            <div class="control-row">Type: <select class="selection"></select>
+            </div>
+          </div>
+      </div>
     <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
   </div>
   
   <div class = "row">
-      <div class = "col-6">
+    <div class = "col-6"><!-- Histogram-->       
+      <div class="card mb-3">
+        <div class="card-header"><i class="fas fa-chart-area"></i>Overall Price Distribution</div>
+          <div class="card-body">
+            <div id = "histogram"></div> 
+              <div class="spacer --small"></div>
+                <div data-num="3">
+                  <div class="plot" id="distplotdiv"></div>
+                    <div class="control-row">
+                      Type: <select class="selection"></select>
+                    </div>
+                  </div>
+                </div>
+              <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+            </div>
+          </div>
 
-  <!-- Histogram-->
-  <div class="card mb-3">
-    <div class="card-header">
-      <i class="fas fa-chart-area"></i>
-      Title</div>
-    <div class="card-body">
-        <div id = "histogram"></div> 
-    </div>
-    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-  </div>
-  </div>
-
-  <div class = "col-6">
-  <!-- HeatMap-->
-  <div class="card mb-3">
-    <div class="card-header">
-      <i class="fas fa-chart-area"></i>
-      Title</div>
-    <div class="card-body">
-        <div id = "heat"></div> 
-    </div>
-    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-  </div>
-  </div>
+          <div class = "col-6"> <!-- HeatMap-->      
+            <div class="card mb-3">
+              <div class="card-header"><i class="fas fa-chart-area"></i>Correlation Map</div>
+                <div class="card-body">
+                  <div id = "heat"></div> 
+                </div>
+              <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+            </div>
+          </div>
 
   <!-- Chart Scripts -->
   {% load static %}
