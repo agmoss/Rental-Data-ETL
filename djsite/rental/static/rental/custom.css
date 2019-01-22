@@ -7,7 +7,7 @@
 #map {
    height: 900px;
 }
-
- body {
-   background-color: rgb(10, 8, 8)
+body {
+   background-color: rgb(10, 8, 8);
+   color :rgb(127, 127, 127)
 } 

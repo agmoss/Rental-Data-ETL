@@ -48,29 +48,55 @@
           </div>
         </div>
 
-
-
     <div class = "col-6">
       <!-- Bar Chart-->
       <div class="card mb-3">
         <div class="card-header">
           <i class="fas fa-chart-area"></i>
-          Title</div>
-        <div class="card-body">
-            <div id = "bar_chart"></div>
+          Monthly Rent per Community</div>
+          <div class="card-body">
+            <div id = "plotdiv"></div>
+
+              <div class="showcase__section" id="bubble">
+                  <div class="spacer --small"></div>
+                  <div id="bubbleplots">
+                    <div class="bubbleplot" data-num="0">
+                      <div class="plot" id="scatterplotdiv"></div>
+                      <div class="control-row">
+                        Type: <select class="selection">
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+          </div>
         </div>
-        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
       </div>
-    </div>
 
     <div class = "col-3">
       <!-- Pie Chart-->
       <div class="card mb-3">
         <div class="card-header">
           <i class="fas fa-chart-area"></i>
-          Title</div>
+          Listings per Community</div>
         <div class="card-body">
             <div id = "pie_chart"></div> 
+
+            <div class="showcase__section" id="bubble">
+                <div class="spacer --small"></div>
+                <div id="pieplots">
+                  <div class="pieplot" data-num="1">
+                    <div class="plot" id="pieplotdiv"></div>
+                    <div class="control-row">
+                      Type: <select class="selection">
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
         </div>
         <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
       </div>
@@ -115,7 +141,6 @@
     <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
   </div>
   </div>
-
 
   <!-- Chart Scripts -->
   {% load static %}

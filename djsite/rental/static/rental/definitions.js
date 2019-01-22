@@ -1,7 +1,7 @@
 var customPlotLayout = {
 
     axis: {
-        axisColor:'#7f7f7f',
+        axisColor:'rgb(127, 127, 127)',
         axisFont: 'Old Standard TT, serif',
         axisTickSize: 14,
         axisTitleSize: 18

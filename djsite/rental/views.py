@@ -78,10 +78,10 @@ def pie_data(request):
     # GROUP BY
     data = list(
         RentalData.objects.using('rental_data')
-        .values('community')
+        .values('community','_type')
         .annotate(dcount=Count('community'))
         .order_by('-dcount')
-        .filter(dcount__gt=75)
+        #.filter(dcount__gt=75)
         )
 
     # SELECT *
@@ -99,7 +99,7 @@ def scatter_data(request):
     # GROUP BY
     data = list(
         RentalData.objects.using('rental_data')
-        .values('community')
+        .values('community','_type')
         .annotate(Avg('price'),dcount=Count('community')) # For filtering
         .order_by('-price__avg')
                

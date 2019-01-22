@@ -1,50 +1,92 @@
 Plotly.d3.json('http://127.0.0.1:8000/api/pie_data', function(data){
 
-    let xData = [];
-    let yData = [];
-    
+    var allTypeNames = [] ;   
+    var alldcount = [] ;
+    var allCommunity = []; 
+    var listofTypes = []; // uniuque
+    var currentCountry;
+    var currentCommunity = []; // Data on current selection
+    var currentdcount = []; // Data on current selection 
 
-    var colors = ['rgba(93, 164, 214, 0.5)', 'rgba(255, 144, 14, 0.5)', 'rgba(44, 160, 101, 0.5)', 'rgba(255, 65, 54, 0.5)', 'rgba(207, 114, 255, 0.5)', 'rgba(127, 96, 0, 0.5)', 'rgba(255, 140, 184, 0.5)', 'rgba(79, 90, 117, 0.5)', 'rgba(222, 223, 0, 0.5)'];
-      
     data.forEach(function(item){
 
-        xData.push(item.community);
-        yData.push(item.dcount);
+        allTypeNames.push(item._type)
+        alldcount.push(item.dcount);
+        allCommunity.push(item.community);
 
     });
 
-    let trace = {
-        labels: xData,
-        values: yData,
-
-        marker: {
-            colors: colors},
-            type:'pie',
+    // Makes things uniuque
+    for (var i = 0; i < allTypeNames.length; i++ ){ 
+        if (listofTypes.indexOf(allTypeNames[i]) === -1 ){
+            listofTypes.push(allTypeNames[i]);
         }
+    }
+   
+    // Gets current selection
+    function getTypeData(chosenItem) {
+        currentCommunity = [];
+        currentdcount = [];
+        for (var i = 0 ; i < allTypeNames.length ; i++){
+            if ( allTypeNames[i] === chosenItem ) {
+                currentCommunity.push(allCommunity[i]);
+                currentdcount.push(alldcount[i]);
+            }
+        }
+    };
 
-    let layout = {
-        //title: "Rental Listings per Community",
-        plot_bgcolor:customPlotLayout.background.plotBackgroundColor,
-        paper_bgcolor:customPlotLayout.background.paperBackgroundColor,
-        legend: {
-            orientation : 'h',
-            // traceorder: 'normal',
-            font: {
-                family: customPlotLayout.axis.axisFont,
-                size: customPlotLayout.axis.axisTickSize,
-                color: customPlotLayout.axis.axisColor
-              }
-          },
+    // Default Country Data
+    setBubblePlot('Apartment');
 
-          margin: {
-            l: 5,
-            r: 5,
-            b: 5,
-            t: 5,
-            pad: 1
-          },
+    // Actual plotting function 
+    function setBubblePlot(chosenItem) {
+        getTypeData(chosenItem);
+
+        var trace1 = {
+            labels: currentCommunity,
+            values: currentdcount,           
+            type:'pie',
+
+        };
+
+        var data = [trace1];
+
+        let layout = {
+            //title: "Rental Listings per Community",
+            plot_bgcolor:customPlotLayout.background.plotBackgroundColor,
+            paper_bgcolor:customPlotLayout.background.paperBackgroundColor,
+
+            showlegend : false,
+    
+              margin: {
+                l: 5,
+                r: 5,
+                b: 5,
+                t: 5,
+                pad: 1
+              },          
+        }
+        Plotly.newPlot('pieplotdiv', data, layout, {displayModeBar: false});
+    };
+
+    var innerContainer = document.querySelector('[data-num="1"'),
+        plotEl = innerContainer.querySelector('.plot'),
+        itemSelector = innerContainer.querySelector('.selection');
+
+    function assignOptions(textArray, selector) {
+        for (var i = 0; i < textArray.length;  i++) {
+            var currentOption = document.createElement('option');
+            currentOption.text = textArray[i];
+            selector.appendChild(currentOption);
+        }
     }
 
-    Plotly.plot(document.getElementById("pie_chart"), [trace], layout,  {displayModeBar: false}); 
+    assignOptions(listofTypes, itemSelector);
 
-})
+    function updateSelection(){
+        setBubblePlot(itemSelector.value);
+    }
+
+    itemSelector.addEventListener('change', updateSelection, false);
+
+});

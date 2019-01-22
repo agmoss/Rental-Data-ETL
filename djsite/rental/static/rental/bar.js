@@ -1,26 +1,59 @@
 Plotly.d3.json('http://127.0.0.1:8000/api/scatter_data', function(data){
 
-    let xData = [];
-    let yData = [];
-      
+    var allTypeNames = [] ;   
+    var allprice__avg = [] ;
+    var allCommunity = []; 
+    var listofTypes = []; // uniuque
+    var currentCountry;
+    var currentCommunity = []; // Data on current selection
+    var currentprice__avg = []; // Data on current selection 
+
     data.forEach(function(item){
 
-        if(item.dcount > 10){
-            xData.push(item.community);
-            yData.push(item.price__avg);
-        }
+        allTypeNames.push(item._type)
+        allprice__avg.push(item.community);
+        allCommunity.push(item.price__avg);
+
     });
 
-    let trace = {
-        x: yData,
-        y: xData,
-        mode : 'markers',
-
-        marker: {
-            color: 'rgba(44, 160, 101, 0.5)'},
-
-            type:'scatter',
+    // Makes things uniuque
+    for (var i = 0; i < allTypeNames.length; i++ ){ 
+        if (listofTypes.indexOf(allTypeNames[i]) === -1 ){
+            listofTypes.push(allTypeNames[i]);
         }
+    }
+   
+    // Gets current selection
+    function getTypeData(chosenCountry) {
+        currentCommunity = [];
+        currentprice__avg = [];
+        for (var i = 0 ; i < allTypeNames.length ; i++){
+            if ( allTypeNames[i] === chosenCountry ) {
+                currentCommunity.push(allCommunity[i]);
+                currentprice__avg.push(allprice__avg[i]);
+            }
+        }
+    };
+
+    // Default Country Data
+    setBubblePlot('Apartment');
+
+    // Actual plotting function 
+    function setBubblePlot(chosenCountry) {
+        getTypeData(chosenCountry);
+
+        var trace1 = {
+            x: currentprice__avg,
+            y: currentCommunity,
+            mode: 'markers',
+            marker: {
+                color: 'rgba(44, 160, 101, 0.5)',
+                size: 12,
+                opacity: 0.5
+            }
+        };
+
+        var data = [trace1];
 
         let layout = {
             //title: "Average Price Per Community",
@@ -67,7 +100,27 @@ Plotly.d3.json('http://127.0.0.1:8000/api/scatter_data', function(data){
                 pad: 4
               },
         }
+        Plotly.newPlot('scatterplotdiv', data, layout,{displayModeBar: false});
+    };
 
-    Plotly.plot(document.getElementById("bar_chart"), [trace],layout,  {displayModeBar: false}); 
+    var innerContainer = document.querySelector('[data-num="0"'),
+        plotEl = innerContainer.querySelector('.plot'),
+        itemSelector = innerContainer.querySelector('.selection');
 
-})
+    function assignOptions(textArray, selector) {
+        for (var i = 0; i < textArray.length;  i++) {
+            var currentOption = document.createElement('option');
+            currentOption.text = textArray[i];
+            selector.appendChild(currentOption);
+        }
+    }
+
+    assignOptions(listofTypes, itemSelector);
+
+    function updateSelection(){
+        setBubblePlot(itemSelector.value);
+    }
+
+    itemSelector.addEventListener('change', updateSelection, false);
+
+});
