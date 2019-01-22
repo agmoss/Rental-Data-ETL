@@ -2,7 +2,7 @@ Plotly.d3.json('http://127.0.0.1:8000/api/corr_data', function(error,data){
 
     if (error) return console.warn(error);
 
-    var colorscale =  [
+    var colorscale =  [ //For custom colorscale
         ['0.0', 'rgb(165,0,38)'],
         ['0.111111111111', 'rgb(215,48,39)'],
         ['0.222222222222', 'rgb(244,109,67)'],
@@ -19,7 +19,7 @@ Plotly.d3.json('http://127.0.0.1:8000/api/corr_data', function(error,data){
         x: data.xValues,
         y: data.yValues,
         z: data.zValues,
-        colorscale: colorscale,
+        colorscale: 'Greens',
         type: 'heatmap',
     }]
 

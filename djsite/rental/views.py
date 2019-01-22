@@ -15,6 +15,7 @@ import json
 import os
 import folium
 import pandas as pd
+import numpy as np
 
 
 def index(request):
@@ -99,8 +100,9 @@ def scatter_data(request):
     data = list(
         RentalData.objects.using('rental_data')
         .values('community')
-        .annotate(Avg('price'))
+        .annotate(Avg('price'),dcount=Count('community')) # For filtering
         .order_by('-price__avg')
+               
         )
 
     return JsonResponse(data, safe=False) 
@@ -110,8 +112,8 @@ def hist_data(request):
 
     data = list(
         RentalData.objects.using('rental_data')
-        .values('price')
-        )
+         .values('price')
+         )
 
     return JsonResponse(data, safe=False)  
 
@@ -157,5 +159,7 @@ def map_data(request):
         RentalData.objects.using('rental_data')
         .values('latitude','longitude')
         )
+
+    from django.core.serializers import serialize
 
     return JsonResponse(data, safe=False)  

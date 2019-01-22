@@ -12,7 +12,7 @@ Plotly.d3.json('http://127.0.0.1:8000/api/box_data', function(data){
 
     let trace = {
         x: xData,
-        y: yData,
+        y: filterOutliers(yData),
 
         marker: {
             color: 'rgba(44, 160, 101, 0.5)'},

@@ -5,18 +5,21 @@ Plotly.d3.json('http://127.0.0.1:8000/api/scatter_data', function(data){
       
     data.forEach(function(item){
 
-        xData.push(item.community);
-        yData.push(item.price__avg);
-
+        if(item.dcount > 10){
+            xData.push(item.community);
+            yData.push(item.price__avg);
+        }
     });
 
     let trace = {
-        x: xData,
-        y: yData,
+        x: yData,
+        y: xData,
+        mode : 'markers',
 
         marker: {
             color: 'rgba(44, 160, 101, 0.5)'},
-            type:'bar',
+
+            type:'scatter',
         }
 
         let layout = {
@@ -57,9 +60,9 @@ Plotly.d3.json('http://127.0.0.1:8000/api/scatter_data', function(data){
             paper_bgcolor:customPlotLayout.background.paperBackgroundColor,
 
             margin: {
-                l: 50,
+                l: 100,
                 r: 10,
-                b: 50,
+                b: 100,
                 t: 1,
                 pad: 4
               },

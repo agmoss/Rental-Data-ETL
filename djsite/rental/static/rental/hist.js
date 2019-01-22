@@ -1,15 +1,14 @@
 Plotly.d3.json('http://127.0.0.1:8000/api/hist_data', function(data){
 
     let xData = [];
-      
+     
     data.forEach(function(item){
-
         xData.push(item.price);
-
     });
 
     let trace = {
-        x: xData,
+        x: filterOutliers(xData),
+
 
         marker: {
             color: 'rgba(44, 160, 101, 0.5)'},
@@ -52,8 +51,20 @@ Plotly.d3.json('http://127.0.0.1:8000/api/hist_data', function(data){
           },
         plot_bgcolor:customPlotLayout.background.plotBackgroundColor,
         paper_bgcolor:customPlotLayout.background.paperBackgroundColor,
+
+        margin: {
+            l: 10,
+            r: 10,
+            b: 50,
+            t: 1,
+            pad: 4
+          },
     }
 
     Plotly.plot(document.getElementById("histogram"), [trace], layout, {displayModeBar: false}); 
+
+
+
+
 
 })

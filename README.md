@@ -30,6 +30,7 @@ All tests should pass before running app.py.
 
 * [Django](https://www.djangoproject.com/) - Web framework
 * [Plotly.js](https://plot.ly/javascript/) - Plotly Javascript Open Source Graphing Library
+* [leaflet.js](https://leafletjs.com/) - Javascript library for interactive maps
 * [Requests](http://docs.python-requests.org/en/master/) - HTTP library 
 * [Pandas](https://pandas.pydata.org/) - Python data analysis library
 * [mysql-connector-python](https://pypi.org/project/mysql-connector-python/) - MySQL driver written in python

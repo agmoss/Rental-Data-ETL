@@ -27,9 +27,8 @@ Plotly.d3.json('http://127.0.0.1:8000/api/pie_data', function(data){
         plot_bgcolor:customPlotLayout.background.plotBackgroundColor,
         paper_bgcolor:customPlotLayout.background.paperBackgroundColor,
         legend: {
-            x: 1,
-            y: 0.5,
-            traceorder: 'normal',
+            orientation : 'h',
+            // traceorder: 'normal',
             font: {
                 family: customPlotLayout.axis.axisFont,
                 size: customPlotLayout.axis.axisTickSize,
@@ -38,11 +37,11 @@ Plotly.d3.json('http://127.0.0.1:8000/api/pie_data', function(data){
           },
 
           margin: {
-            l: 50,
-            r: 10,
-            b: 50,
-            t: 1,
-            pad: 4
+            l: 5,
+            r: 5,
+            b: 5,
+            t: 5,
+            pad: 1
           },
     }
 
