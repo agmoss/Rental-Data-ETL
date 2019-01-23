@@ -8,6 +8,10 @@ __pycache__
 .idea/
 .pytest_cache
 
+#Docker
+docker-compose.yml
+Dockerfile
+
 #Temporary
 sched_test.py
 
