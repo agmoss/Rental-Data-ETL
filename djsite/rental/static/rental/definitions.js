@@ -18,3 +18,7 @@ var customPlotLayout = {
 var colorScheme = {
     primary :"rgba(255, 72, 0, 0.808)"
 }
+
+var domainName = "http://0.0.0.0:8000/"
+
+

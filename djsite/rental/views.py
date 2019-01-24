@@ -32,12 +32,7 @@ def analytics(request):
         'title' : 'Analytics'
     }
 
-    file_path = os.path.join(settings.VISUALS_DIR, 'plots.json')
-
-    with open(file_path) as f:
-        data = json.load(f)
-
-    return render(request,'rental/analytics.html', {'title': title, 'data' : data})
+    return render(request,'rental/analytics.html', {'title': title})
 
 
 def about(request):

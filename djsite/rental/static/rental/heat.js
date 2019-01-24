@@ -1,4 +1,4 @@
-Plotly.d3.json('http://127.0.0.1:8000/api/corr_data', function(error,data){
+Plotly.d3.json(domainName + 'api/corr_data', function(error,data){
 
     if (error) return console.warn(error);
 

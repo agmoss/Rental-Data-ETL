@@ -1,4 +1,4 @@
-Plotly.d3.json('http://127.0.0.1:8000/api/map_data', function(data){
+Plotly.d3.json(domainName + 'api/map_data', function(data){
 
     var map = L.map('map',{
         preferCanvas: true
