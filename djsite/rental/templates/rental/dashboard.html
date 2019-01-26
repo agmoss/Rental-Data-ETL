@@ -38,15 +38,11 @@
     <div class = "col-9">
       <!-- Bar Chart-->
       <div class="card mb-3">
-        <div class="card-header">
-          <i class="fas fa-chart-area"></i>
-          Monthly Rent per Community</div>
-          <div class="card-body">
-            <div id = "plotdiv"></div>
+        <div class="card-header">Monthly Rent per Community</div>
 
-                <div class="spacer --small"></div>
+          <div class="card-body">
                   <div data-num="0">
-                    <div class="plot" id="scatterplotdiv"></div>
+                    <div id="scatterplotdiv"></div>
                     <div class="control-row">
                       Type: <select class="selection">
                       </select>
@@ -61,15 +57,11 @@
     <div class = "col-3">
       <!-- Pie Chart-->
       <div class="card mb-3">
-        <div class="card-header">
-          <i class="fas fa-chart-area"></i>
-          Listings per Community</div>
+        <div class="card-header">Listings per Community</div>
         <div class="card-body">
-            <div id = "pie_chart"></div> 
 
-              <div class="spacer --small"></div>
                 <div data-num="1">
-                  <div class="plot" id="pieplotdiv"></div>
+                  <div id="pieplotdiv"></div>
                   <div class="control-row">
                     Type: <select class="selection">
                     </select>
@@ -84,12 +76,10 @@
 
   <!--BoxPlot-->
   <div class="card mb-3">
-    <div class="card-header"><i class="fas fa-chart-area"></i>Price Distribution per City Quadrant</div>
+    <div class="card-header">Price Distribution per City Quadrant</div>
     <div class="card-body">
-      <div id = "box_plot"></div> 
-        <div class="spacer --small"></div>
           <div data-num="2">
-            <div class="plot" id="boxplotdiv"></div>
+            <div id="boxplotdiv"></div>
             <div class="control-row">Type: <select class="selection"></select>
             </div>
           </div>
@@ -98,14 +88,14 @@
   </div>
   
   <div class = "row">
+    
     <div class = "col-6"><!-- Histogram-->       
       <div class="card mb-3">
-        <div class="card-header"><i class="fas fa-chart-area"></i>Overall Price Distribution</div>
+        <div class="card-header">Overall Price Distribution</div>
           <div class="card-body">
-            <div id = "histogram"></div> 
-              <div class="spacer --small"></div>
+
                 <div data-num="3">
-                  <div class="plot" id="distplotdiv"></div>
+                  <div id="distplotdiv"></div>
                     <div class="control-row">
                       Type: <select class="selection"></select>
                     </div>
@@ -117,13 +107,14 @@
 
           <div class = "col-6"> <!-- HeatMap-->      
             <div class="card mb-3">
-              <div class="card-header"><i class="fas fa-chart-area"></i>Correlation Map</div>
+              <div class="card-header">Correlation Map</div>
                 <div class="card-body">
                   <div id = "heat"></div> 
                 </div>
               <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
             </div>
           </div>
+
 
   <!-- Chart Scripts -->
   {% load static %}

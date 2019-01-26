@@ -11,7 +11,15 @@ function arrayToGeoJson(data){
             geometry: {
                 type: 'Point',
                 coordinates: [lon,lat]
+            },
+
+            properties:{
+                price : point.price,
+                type : point._type,
+
             }
+
+
         };
 
         jsonFeatures.push(feature);

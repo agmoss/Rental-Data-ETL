@@ -35,7 +35,7 @@ Plotly.d3.json(domainName +'api/scatter_data', function(data){
         }
     };
 
-    // Default Country Data
+    // Default Data
     setPlot('Apartment');
 
     // Actual plotting function 
@@ -49,52 +49,52 @@ Plotly.d3.json(domainName +'api/scatter_data', function(data){
             type: 'bar',
             marker: {
                 color: colorScheme.primary,
-                //size: 12,
             }
         };
 
         var data = [trace1];
 
         let layout = {
-            //title: "Average Price Per Community",
             yaxis: {
                 title: {
-                  text: 'y Axis',
+                  text: 'Rent per Month',
                   font: {
-                    family: customPlotLayout.axis.axisFont,
                     size: customPlotLayout.axis.axisTitleSize,
                     color: customPlotLayout.axis.axisColor,
                   }
                 },
                 tickcolor: customPlotLayout.axis.axisColor,
                 tickfont: {
-                    family: customPlotLayout.axis.axisFont,
                     size: customPlotLayout.axis.axisTickSize,
                     color: customPlotLayout.axis.axisColor
                   },
+                  automargin : true,
               },
               xaxis: {
                 title: {
-                  text: 'x Axis',
+                  text: 'Community',
                   font: {
-                    family: customPlotLayout.axis.axisFont,
+
                     size: customPlotLayout.axis.axisTitleSize,
                     color: customPlotLayout.axis.axisColor
                   }
                 },
                 tickcolor: customPlotLayout.axis.axisColor,
                 tickfont: {
-                    family: customPlotLayout.axis.axisFont,
                     size: customPlotLayout.axis.axisTickSize,
                     color: customPlotLayout.axis.axisColor
                   },
+                automargin : true,
+
+                tickangle: (45),
+                ticks: 'outside',
               },
             plot_bgcolor:customPlotLayout.background.plotBackgroundColor,
             paper_bgcolor:customPlotLayout.background.paperBackgroundColor,
 
             margin: {
                 l: 100,
-                r: 10,
+                r: 50,
                 b: 100,
                 t: 1,
                 pad: 4
@@ -104,7 +104,6 @@ Plotly.d3.json(domainName +'api/scatter_data', function(data){
     };
 
     var innerContainer = document.querySelector('[data-num="0"'),
-        plotEl = innerContainer.querySelector('.plot'),
         itemSelector = innerContainer.querySelector('.selection');
 
     function assignOptions(textArray, selector) {

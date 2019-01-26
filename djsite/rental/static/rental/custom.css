@@ -11,10 +11,55 @@ body {
    background-color: rgb(10, 8, 8);
    color :rgb(127, 127, 127)
 } 
+.card-header{
+   font-size: 20px
+}
+
+.navbar-brand {
+   font-weight: 600
+}
+
+*{
+   font-family: 'Ubuntu', sans-serif;
+}
+
+ul li a {
+   color:#105cce;
+ }
+
+.active, ul li a:hover {
+   /* background-color: #666; */
+   color: rgb(236, 99, 8);
+ }
 
 
-#colortester{
+#content-wrapper {
+   color: white;
+   background: url("bg-pattern.png"), #524397;
+   background: url("bg-pattern.png"), -webkit-gradient(linear, right top, left top, from(#524397), to(#dc4024));
+   background: url("bg-pattern.png"), linear-gradient(to left, #524397, #dc4024);
+ }
 
-   color:rgba(255, 72, 0, 0.808)
 
+ .special-card {  
+
+     background-color: rgba(22, 22, 22,0.4);
+     /* min-height: 900px */
+
+}
+
+#header {
+   padding-top: 100px;
+   padding-bottom: 100px;
+   padding-right: 15px;
+   padding-left: 15px;
+   margin-right: auto;
+   margin-left: auto;
+   max-width: 900px;
+   overflow:hidden;  
+
+}
+
+h1{
+   font-size: 75px
 }

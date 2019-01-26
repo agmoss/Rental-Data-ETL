@@ -35,6 +35,9 @@ Plotly.d3.json(domainName + 'api/pie_data', function(data){
         }
     };
 
+    // Default 
+    setPlot('Condo');
+
     // Actual plotting function 
     function setPlot(chosenItem) {
         getTypeData(chosenItem);
@@ -68,7 +71,6 @@ Plotly.d3.json(domainName + 'api/pie_data', function(data){
     };
 
     var innerContainer = document.querySelector('[data-num="1"'),
-        plotEl = innerContainer.querySelector('.plot'),
         itemSelector = innerContainer.querySelector('.selection');
 
     function assignOptions(textArray, selector) {
@@ -86,8 +88,5 @@ Plotly.d3.json(domainName + 'api/pie_data', function(data){
     }
 
     itemSelector.addEventListener('change', updateSelection, false);
-
-    // Default 
-    setPlot('Condo');
 
 });

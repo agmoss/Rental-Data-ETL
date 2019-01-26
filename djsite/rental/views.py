@@ -18,13 +18,21 @@ import pandas as pd
 import numpy as np
 
 
-def index(request):
+def home(request):
+
+    title = {
+        'title' : 'Home'
+    }
+
+    return render(request,'rental/home.html', {'title': title })
+
+def dashboard(request):
 
     title = {
         'title' : 'Dashboard'
     }
 
-    return render(request,'rental/index.html', {'title': title })
+    return render(request,'rental/dashboard.html', {'title': title })
 
 def analytics(request):
 
@@ -54,18 +62,10 @@ def data(request):
 def map(request):
 
     title = {
-        'title' : 'Data'
+        'title' : 'Map'
     }
 
     return render(request,'rental/map.html',title)
-
-def calgary_heat_map(request):
-    
-    title = {
-        'title' : 'Data'
-    }
-
-    return render(request,'rental/calgary_heat_map.html',title)
 
 def pie_data(request):
     """ JSON API """
@@ -76,16 +76,10 @@ def pie_data(request):
         .values('community','_type')
         .annotate(dcount=Count('community'))
         .order_by('-dcount')
-        #.filter(dcount__gt=75)
+        .filter(position = 'active')
         )
 
-    # SELECT *
-    #data = list(RentalData.objects.using('rental_data').values())
-
-    # assuming obj is a model instance (manual serialization)
-    #serialized_obj = serializers.serialize('json', count )
-
-    return JsonResponse(data, safe=False)  # or JsonResponse({'data': data})
+    return JsonResponse(data, safe=False)  
 
 
 def scatter_data(request):
@@ -97,7 +91,7 @@ def scatter_data(request):
         .values('community','_type')
         .annotate(Avg('price'),dcount=Count('community')) # For filtering
         .order_by('-price__avg')
-               
+        .filter(position = 'active')             
         )
 
     return JsonResponse(data, safe=False) 
@@ -108,6 +102,7 @@ def hist_data(request):
     data = list(
         RentalData.objects.using('rental_data')
          .values('price','_type')
+         .filter(position = 'active')
          )
 
     return JsonResponse(data, safe=False)  
@@ -119,6 +114,7 @@ def box_data(request):
     data = list(
         RentalData.objects.using('rental_data')
         .values('quadrant','price','_type')
+        .filter(position = 'active')
         )
 
     return JsonResponse(data, safe=False)  
@@ -131,6 +127,7 @@ def corr_data(request):
             RentalData.objects.using('rental_data')
             # TODO: Convert values to numeric...
             .values('price','_type','sq_feet','location','community','quadrant','bedrooms','den','baths','cats','dogs','utilities_included')
+            .filter(position = 'active')
             )
         )
 
@@ -152,7 +149,8 @@ def map_data(request):
 
     data = list(
         RentalData.objects.using('rental_data')
-        .values('latitude','longitude')
+        .values('latitude','longitude','price','_type')
+        .filter(position = 'active')
         )
 
     from django.core.serializers import serialize

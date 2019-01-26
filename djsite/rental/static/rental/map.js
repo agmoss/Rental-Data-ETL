@@ -14,6 +14,8 @@ Plotly.d3.json(domainName + 'api/map_data', function(data){
     // Convert array to geoJson with function
     geoJson = arrayToGeoJson(data);
 
+    console.log(geoJson)
+
     // Custom circlemarkers
     var geojsonMarkerOptions = {
         radius: 3,
@@ -23,10 +25,20 @@ Plotly.d3.json(domainName + 'api/map_data', function(data){
         opacity: 1,
         fillOpacity: 0.8
     };
-    L.geoJson(geoJson, {
+
+    L.geoJSON(geoJson, {
         pointToLayer: function (feature, latlng) {
-            return L.circleMarker(latlng, geojsonMarkerOptions);
+
+            var mypopup = L.popup().setContent(
+                '<h3>' + feature.properties.type + '</h3>' 
+                + '<h4>' + "Price:" + feature.properties.price + '</h4>'
+                );
+
+            var mymarker = L.circleMarker(latlng, geojsonMarkerOptions);
+      
+            mymarker.bindPopup(mypopup);
+            return mymarker;               
         }
-    }).addTo(map);
-    
+      }).addTo(map);
+
 })

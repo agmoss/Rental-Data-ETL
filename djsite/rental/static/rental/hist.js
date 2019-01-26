@@ -52,38 +52,35 @@ Plotly.d3.json(domainName + 'api/box_data', function(data){
             }
     
             let layout = {
-                //title: "Distribution of Price",
                 yaxis: {
                     title: {
-                      text: 'y Axis',
+                      text: 'Frequency',
                       font: {
-                        family: customPlotLayout.axis.axisFont,
                         size: customPlotLayout.axis.axisTitleSize,
                         color: customPlotLayout.axis.axisColor,
                       }
                     },
                     tickcolor: customPlotLayout.axis.axisColor,
                     tickfont: {
-                        family: customPlotLayout.axis.axisFont,
                         size: 14,
                         color: customPlotLayout.axis.axisColor
                       },
+                      automargin : true,
                   },
                   xaxis: {
                     title: {
-                      text: 'x Axis',
+                      text: 'Rent per Month',
                       font: {
-                        family: customPlotLayout.axis.axisFont,
                         size: customPlotLayout.axis.axisTitleSize,
                         color: customPlotLayout.axis.axisColor
                       }
                     },
                     tickcolor: customPlotLayout.axis.axisColor,
                     tickfont: {
-                        family: customPlotLayout.axis.axisFont,
                         size: customPlotLayout.axis.axisTickSize,
                         color: customPlotLayout.axis.axisColor
                       },
+                      automargin : true,
                   },
                 plot_bgcolor:customPlotLayout.background.plotBackgroundColor,
                 paper_bgcolor:customPlotLayout.background.paperBackgroundColor,
@@ -103,7 +100,6 @@ Plotly.d3.json(domainName + 'api/box_data', function(data){
     };
 
     var innerContainer = document.querySelector('[data-num="3"'),
-        plotEl = innerContainer.querySelector('.plot'),
         itemSelector = innerContainer.querySelector('.selection');
 
     function assignOptions(textArray, selector) {

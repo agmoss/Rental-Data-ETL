@@ -24,21 +24,11 @@ Plotly.d3.json(domainName + 'api/corr_data', function(error,data){
     }]
 
     var layout = {
-        //title: 'Correlation',
         annotations: [],
         yaxis: {
           ticks: '',
-          title: {
-            text: 'y Axis',
-            font: {
-              family: customPlotLayout.axis.axisFont,
-              size: customPlotLayout.axis.axisTitleSize,
-              color: customPlotLayout.axis.axisColor,
-            }
-          },
           tickcolor: customPlotLayout.axis.axisColor,
           tickfont: {
-              family: customPlotLayout.axis.axisFont,
               size: 14,
               color: customPlotLayout.axis.axisColor
             },
@@ -46,17 +36,8 @@ Plotly.d3.json(domainName + 'api/corr_data', function(error,data){
         xaxis: {
           ticks: '',
           side: 'top',
-          title: {
-            text: 'x Axis',
-            font: {
-              family: customPlotLayout.axis.axisFont,
-              size: customPlotLayout.axis.axisTitleSize,
-              color: customPlotLayout.axis.axisColor,
-            }
-          },
           tickcolor: customPlotLayout.axis.axisColor,
           tickfont: {
-              family: customPlotLayout.axis.axisFont,
               size: 14,
               color: customPlotLayout.axis.axisColor
             },
