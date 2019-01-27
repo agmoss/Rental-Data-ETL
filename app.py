@@ -4,6 +4,7 @@ import re
 import functools
 import time
 from time import gmtime, strftime
+import datetime
 import sys
 
 # Third party imports
@@ -191,14 +192,28 @@ def main():
 
 if __name__ == "__main__":
 
-    logging.info("Running")
+    def addSecs(tm, secs):
+        fulldate = datetime.datetime(100, 1, 1, tm.hour, tm.minute, tm.second)
+        fulldate = fulldate + datetime.timedelta(seconds=secs)
+        return fulldate.time()
 
+    now = datetime.datetime.now()
 
-    schedule.every().day.at("18:01").do(main)
+    start_time = addSecs(now,60)
+
+    logging.info("Starting")
+
+    logging.info("Current time: {0}".format(now.strftime("%Y-%m-%d %H:%M")))
+    print("Current time: {0}".format(now.strftime("%Y-%m-%d %H:%M")))
+   
+    start_time = start_time.strftime("%H:%M")
+
+    print("Start time: {0} ".format(start_time))
+
+    schedule.every().day.at(start_time).do(main)
 
     while True:
-        sys.stdout.write("\r{0}".format(strftime("%Y-%m-%d %H:%M:%S", gmtime())))
-        sys.stdout.flush()
+
         schedule.run_pending()
         time.sleep(1)
     # TODO: Handle raised exceptions
