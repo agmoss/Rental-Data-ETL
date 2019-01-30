@@ -99,13 +99,26 @@ Plotly.d3.json(domainName +'api/scatter_data', function(data){
                 t: 1,
                 pad: 4
               },
+
+              autosize : true, // Important for responsiveness
         }
 
-        var thisDiv = document.getElementById('scatterplotdiv')
+        var bDiv = document.getElementById('scatterplotdiv')
 
-        Plotly.newPlot(thisDiv, data, layout,{displayModeBar: false},{responsive: true});
+        Plotly.newPlot(bDiv, data, layout,{displayModeBar: false},{responsive: true});
 
+        // Where to put this?
+        window.onresize = function() {
+            Plotly.relayout(bDiv, {
+                width: 0.9 * bDiv.innerWidth,
+                height: 0.9 * bDiv.innerHeight
+            }),
         
+            Plotly.relayout(pDiv, {
+                width: 0.9 * pDiv.innerWidth,
+                height: 0.9 * pDiv.innerHeight
+            })
+            }       
     };
 
     var innerContainer = document.querySelector('[data-num="0"'),
@@ -127,14 +140,5 @@ Plotly.d3.json(domainName +'api/scatter_data', function(data){
 
     itemSelector.addEventListener('change', updateSelection, false);
 
-
-    var thisDiv = document.getElementById('scatterplotdiv')
-
-    window.onresize = function() {
-        Plotly.relayout(thisDiv, {
-          width: 0.9 * window.innerWidth,
-          height: 0.9 * window.innerHeight
-        })
-      }
 
 });
