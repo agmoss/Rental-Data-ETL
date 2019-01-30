@@ -67,7 +67,7 @@ Plotly.d3.json(domainName + 'api/pie_data', function(data){
                 pad: 1
               }, 
               
-              autosize : true, // Important for responsiveness
+            autosize : true, // Important for responsiveness
         }
 
         Plotly.newPlot(pDiv, data, layout, {displayModeBar: false});
@@ -93,5 +93,3 @@ Plotly.d3.json(domainName + 'api/pie_data', function(data){
     itemSelector.addEventListener('change', updateSelection, false);
 
 });
-
-var pDiv = document.getElementById('pieplotdiv')
