@@ -65,9 +65,12 @@ Plotly.d3.json(domainName + 'api/pie_data', function(data){
                 b: 5,
                 t: 5,
                 pad: 1
-              },          
+              }, 
+              
+            autosize : true, // Important for responsiveness
         }
-        Plotly.newPlot('pieplotdiv', data, layout, {displayModeBar: false});
+
+        Plotly.newPlot(pDiv, data, layout, {displayModeBar: false});
     };
 
     var innerContainer = document.querySelector('[data-num="1"'),

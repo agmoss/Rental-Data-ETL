@@ -44,8 +44,11 @@ Plotly.d3.json(domainName + 'api/corr_data', function(error,data){
         },
         plot_bgcolor:customPlotLayout.background.plotBackgroundColor,
         paper_bgcolor:customPlotLayout.background.paperBackgroundColor,
+
+        autosize : true, // Important for responsiveness
+
       };
 
-    Plotly.plot(document.getElementById("heat"), d, layout, {displayModeBar: false}); 
+    Plotly.newPlot(heatDiv, d, layout, {displayModeBar: false}); 
 
 })

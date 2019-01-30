@@ -94,11 +94,13 @@ Plotly.d3.json(domainName + 'api/box_data', function(data){
                     t: 1,
                     pad: 1
                   },
+
+                autosize : true, // Important for responsiveness
             }
 
         var data = [trace1];
 
-        Plotly.newPlot('boxplotdiv', data, layout,{displayModeBar: false});
+        Plotly.newPlot(boxDiv, data, layout,{displayModeBar: false});
     };
 
     var innerContainer = document.querySelector('[data-num="2"'),

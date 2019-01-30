@@ -19,10 +19,10 @@ var colorScheme = {
 }
 
 // For Docker
-var domainName = "http://0.0.0.0:8001/"
+//var domainName = "http://0.0.0.0:8001/"
 
 // For local
-//var domainName = "http://127.0.0.1:8000/"
+var domainName = "http://127.0.0.1:8000/"
 
 var projectName = "The Calgary Project"
 
