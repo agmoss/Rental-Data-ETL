@@ -11,15 +11,6 @@ __pycache__
 #Docker
 docker-compose.yml
 Dockerfile
-
-#Temporary
-sched_test.py
-
-
-public/charts
-public/data
-djsite/rental/templates/rental/calgary_heat_map.html
-
 .vs
 
 # From https://github.com/github/gitignore
@@ -82,7 +73,7 @@ coverage.xml
 # Django stuff:
 *.log
 local_settings.py
-settings.py
+#settings.py (this file is masked)
 db.sqlite3
 
 # Flask stuff:

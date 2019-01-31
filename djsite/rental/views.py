@@ -20,52 +20,52 @@ import numpy as np
 
 def home(request):
 
-    title = {
-        'title' : 'Home'
+    content = {
+        'title' : 'Home',
     }
 
-    return render(request,'rental/home.html', {'title': title })
+    return render(request,'rental/home.html', content)
 
 def dashboard(request):
 
-    title = {
-        'title' : 'Dashboard'
+    content = {
+        'title' : 'Dashboard',
     }
 
-    return render(request,'rental/dashboard.html', {'title': title })
+    return render(request,'rental/dashboard.html', content)
 
 def analytics(request):
 
-    title = {
+    content = {
         'title' : 'Analytics'
     }
 
-    return render(request,'rental/analytics.html', {'title': title})
+    return render(request,'rental/analytics.html', content)
 
 
 def about(request):
 
-    title = {
+    content = {
         'title' : 'About'
     }
 
-    return render(request,'rental/about.html',title)
+    return render(request,'rental/about.html',content)
 
 def data(request):
 
-    title = {
+    content = {
         'title' : 'Data'
     }
 
-    return render(request,'rental/data.html',title)
+    return render(request,'rental/data.html',content)
 
 def map(request):
 
-    title = {
+    content = {
         'title' : 'Map'
     }
 
-    return render(request,'rental/map.html',title)
+    return render(request,'rental/map.html',content)
 
 def pie_data(request):
     """ JSON API """
