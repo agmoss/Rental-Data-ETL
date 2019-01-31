@@ -19,7 +19,6 @@ import scripts.Rental as Rental
 
 
 """ Function wrappers for main() """
-
 # Continue running if there is an exception in the main method
 def catch_exceptions(func):
     @functools.wraps(func)

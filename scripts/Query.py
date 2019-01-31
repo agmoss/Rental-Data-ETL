@@ -2,6 +2,7 @@ import logging
 import pandas as pd
 
 class Query:
+    """For testing purposes"""
 
     def __init__(self,conn):
         # Database connection 

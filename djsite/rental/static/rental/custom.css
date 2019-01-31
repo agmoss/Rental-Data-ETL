@@ -21,6 +21,10 @@ body {
    font-weight: 600
 }
 
+#projectTitle{
+   font-family: 'Allan', cursive;
+}
+
 *{
    font-family: 'Ubuntu', sans-serif;
 }
