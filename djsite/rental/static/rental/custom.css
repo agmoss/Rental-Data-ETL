@@ -25,6 +25,10 @@ body {
    font-family: 'Allan', cursive;
 }
 
+#header{
+   font-family: 'Allan', cursive;
+}
+
 *{
    font-family: 'Ubuntu', sans-serif;
 }
@@ -49,7 +53,7 @@ ul li a {
 
 .special-card {  
      background-color: rgba(22, 22, 22,0.4);
-     height: 75vh; 
+     /* overflow:hidden;  */
 }
 
 #header {
@@ -70,3 +74,4 @@ h1{
 .container-fluid{
    padding-bottom: 15px;
 }
+
