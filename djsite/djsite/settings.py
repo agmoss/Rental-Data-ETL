@@ -37,7 +37,9 @@ def config():
     db_data = config['rental_data']
     secret_key = config['SECRET_KEY']
 
-    return {"default" : db_default, "data" : db_data , "key" : secret_key}
+    domain = config['DOMAIN']
+
+    return {"default" : db_default, "data" : db_data , "key" : secret_key,"domain" : domain}
 
 CONFIGS= config()
 
@@ -50,7 +52,8 @@ SECRET_KEY = CONFIGS['key']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']
+#ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']
+ALLOWED_HOSTS = [CONFIGS['domain'],]
 
 # Application definition
 

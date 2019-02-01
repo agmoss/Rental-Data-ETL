@@ -18,10 +18,30 @@ import pandas as pd
 import numpy as np
 
 
+# External configurations (domain)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CONFIG_FILE = os.path.abspath(os.path.join(BASE_DIR, '../config.json'))
+
+def config():
+    """Setup"""
+
+    import json
+
+    with open(CONFIG_FILE, 'r') as f:
+        config = json.load(f)
+
+    domain = config['DOMAIN']
+
+    return {"domain" : domain}
+
+CONFIGS= config()
+
+
 def home(request):
 
     content = {
         'title' : 'Home',
+        'domain' : CONFIGS['domain']      
     }
 
     return render(request,'rental/home.html', content)
@@ -30,6 +50,7 @@ def dashboard(request):
 
     content = {
         'title' : 'Dashboard',
+        'domain' : CONFIGS['domain']  
     }
 
     return render(request,'rental/dashboard.html', content)
@@ -37,7 +58,8 @@ def dashboard(request):
 def analytics(request):
 
     content = {
-        'title' : 'Analytics'
+        'title' : 'Analytics',
+        'domain' : CONFIGS['domain']  
     }
 
     return render(request,'rental/analytics.html', content)
@@ -46,7 +68,8 @@ def analytics(request):
 def about(request):
 
     content = {
-        'title' : 'About'
+        'title' : 'About',
+        'domain' : CONFIGS['domain']  
     }
 
     return render(request,'rental/about.html',content)
@@ -54,7 +77,8 @@ def about(request):
 def data(request):
 
     content = {
-        'title' : 'Data'
+        'title' : 'Data',
+        'domain' : CONFIGS['domain']  
     }
 
     return render(request,'rental/data.html',content)
@@ -62,7 +86,8 @@ def data(request):
 def map(request):
 
     content = {
-        'title' : 'Map'
+        'title' : 'Map',
+        'domain' : CONFIGS['domain']  
     }
 
     return render(request,'rental/map.html',content)

@@ -9,6 +9,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <meta id='domain' {{ domain }} >
+
     {% if title.title %}
       <title> {{ title.title }} - Rental Analytics </title>
     {% else %}
@@ -95,7 +97,7 @@
           <!-- Breadcrumbs-->
           <ol class="breadcrumb">
               <li class="breadcrumb-item">
-                  / {{ title.title }} 
+                  / {{ title }} 
               </li>
               <!-- <li class="breadcrumb-item active">Blank Page</li> -->
           </ol>
