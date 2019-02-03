@@ -21,7 +21,7 @@ var colorScheme = {
 // For Docker
 //var domainName = "http://0.0.0.0:8000/"
 // For local
-var domainName = "http://127.0.0.1:8000/"
+var domainName = "http://127.0.0.1:1337/"
 //Deployment
 //var domainName = "calgaryproject.ca"
 

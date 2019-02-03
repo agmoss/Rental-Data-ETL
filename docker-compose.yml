@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+  web:
+    build: ./djsite
+    command: gunicorn djsite.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - ./djsite/:/usr/src/djsite/
+      - static_volume:/usr/src/djsite/djsite/staticfiles
+    expose:
+      - 8000
+    environment:
+      - SECRET_KEY="replace from config.json"
+
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_volume:/usr/src/djsite/djsite/staticfiles
+    ports:
+      - 1337:80
+    depends_on:
+      - web
+
+volumes:
+  static_volume:

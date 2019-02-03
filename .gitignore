@@ -8,12 +8,9 @@ __pycache__
 .idea/
 .pytest_cache
 /mysql
-/nginx
-djsite/djsite/static
+staticfiles/
 
 #Docker
-docker-compose.yml
-Dockerfile
 .vs
 
 # From https://github.com/github/gitignore

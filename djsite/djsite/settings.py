@@ -14,19 +14,15 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 
 # Directories
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CONFIG_FILE = os.path.abspath(os.path.join(BASE_DIR, '../config.json'))
+CONFIG_FILE = os.path.abspath(os.path.join(BASE_DIR, './config.json'))
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
-
-STATIC_URL = '/static/'
-
-#STATIC_ROOT = os.path.join(PROJECT_DIR, 'allstatic')
-STATIC_ROOT = 'usr/src/allstatic/'
+STATIC_URL = '/staticfiles/'
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'staticfiles')
 
 
 # External configurations
@@ -36,7 +32,7 @@ def config():
     import json
 
     with open(CONFIG_FILE, 'r') as f:
-        config = json.load(f)
+       config = json.load(f)
 
     db_default = config['default']
     db_data = config['rental_data']
@@ -55,7 +51,7 @@ CONFIGS= config()
 SECRET_KEY = CONFIGS['key']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 #ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']
 ALLOWED_HOSTS = ['calgaryproject.ca','0.0.0.0', '127.0.0.1', '[::1]','localhost']
