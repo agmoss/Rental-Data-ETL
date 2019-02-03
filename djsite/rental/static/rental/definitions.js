@@ -19,11 +19,11 @@ var colorScheme = {
 }
 
 // For Docker
-//var domainName = "http://0.0.0.0:8001/"
+//var domainName = "http://0.0.0.0:8000/"
 // For local
-//var domainName = "http://127.0.0.1:8000/"
-
-var domainName = "calgaryproject.ca"
+var domainName = "http://127.0.0.1:8000/"
+//Deployment
+//var domainName = "calgaryproject.ca"
 
 var projectName = "The Calgary Project"
 
