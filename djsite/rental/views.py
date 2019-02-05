@@ -13,7 +13,6 @@ from django.core import serializers
 # Python & third party imports
 import json
 import os
-import folium
 import pandas as pd
 import numpy as np
 

@@ -21,7 +21,7 @@ CONFIG_FILE = os.path.abspath(os.path.join(BASE_DIR, './config.json'))
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
-STATIC_URL = '/staticfiles/'
+STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(PROJECT_DIR, 'staticfiles')
 
 
@@ -51,10 +51,16 @@ CONFIGS= config()
 SECRET_KEY = CONFIGS['key']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-#ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']
-ALLOWED_HOSTS = ['calgaryproject.ca','0.0.0.0', '127.0.0.1', '[::1]','localhost']
+ALLOWED_HOSTS = [
+    'localhost', 
+    '127.0.0.1', 
+    'calgaryproject.azurewebsites.net',
+    'https://calgaryproject.azurewebsites.net',
+
+]
+
 
 # Application definition
 
