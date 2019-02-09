@@ -7,11 +7,6 @@ __pycache__
 *.log
 .idea/
 .pytest_cache
-/mysql
-staticfiles/
-
-#Docker
-.vs
 
 # From https://github.com/github/gitignore
 
