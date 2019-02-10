@@ -39,6 +39,7 @@ All tests should pass before running app.py.
 
 ### Services
 * [Microsoft Azure](https://azure.microsoft.com/en-ca/) - Cloud service
+* [Docker](https://www.docker.com/) - Virtualization
 
 ## Contributing
 
