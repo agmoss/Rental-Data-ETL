@@ -188,33 +188,40 @@ def main():
 
     logging.info("Bon Voyage")
 
+    return 1
 
+
+# Enter the runtime in sys.argv[1]
 if __name__ == "__main__":
 
-    def addSecs(tm, secs):
-        fulldate = datetime.datetime(100, 1, 1, tm.hour, tm.minute, tm.second)
-        fulldate = fulldate + datetime.timedelta(seconds=secs)
-        return fulldate.time()
+    if len(sys.argv) > 1:
+        entered_time = sys.argv[1]
+
+        try:
+            start_time = datetime.datetime.strptime(entered_time, "%H:%M")
+
+        except Exception as ex:
+            print("Incorrect time format, exiting")
+            sys.exit(-1)
+
+    else:
+        print("No time provided, exiting program")
+        sys.exit(-1)
 
     now = datetime.datetime.now()
 
-    start_time = addSecs(now,60)
-
-    logging.info("Starting")
-
-    logging.info("Current time: {0}".format(now.strftime("%Y-%m-%d %H:%M")))
-    print("Current time: {0}".format(now.strftime("%Y-%m-%d %H:%M")))
-   
-    start_time = start_time.strftime("%H:%M")
-
+    print("Current time: {0} ".format(now))
     print("Start time: {0} ".format(start_time))
 
-    schedule.every().day.at(start_time).do(main)
+    logging.info("Starting")
+    logging.info("Current time: {0}".format(now.strftime("%Y-%m-%d %H:%M")))
+
+    sched_time = start_time.strftime("%H:%M")
+
+    # Run main every day
+    schedule.every().day.at(sched_time).do(test)
 
     while True:
 
         schedule.run_pending()
         time.sleep(1)
-    # TODO: Handle raised exceptions
-    # TODO: Write tests
-    # TODO: Notification of crash
