@@ -23,4 +23,4 @@ RUN chmod g+w /app
 RUN pip3 install -r requirements.txt
 
 # Run the app
-CMD ["python", "app.py"]
+CMD ["python", "app.py", "05:30"]

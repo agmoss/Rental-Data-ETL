@@ -219,7 +219,7 @@ if __name__ == "__main__":
     sched_time = start_time.strftime("%H:%M")
 
     # Run main every day
-    schedule.every().day.at(sched_time).do(test)
+    schedule.every().day.at(sched_time).do(main)
 
     while True:
 
