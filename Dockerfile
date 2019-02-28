@@ -11,7 +11,7 @@ RUN apt-get update \
 RUN apt-get install -y default-libmysqlclient-dev
 
 # For sending data to MYSQL Cloud DB
-EXPOSE 3306
+EXPOSE 3306 465 587 25
 
 # Copy the app files to a folder and run it from there
 WORKDIR /app
