@@ -17,11 +17,12 @@ import pandas as pd
 import scripts.Database as Database
 import scripts.Accessor as Accessor
 import scripts.Rental as Rental
-import scripts.Email as Email
-    
-    
+
+
 """ Function wrappers for main() """
 # Continue running if there is an exception in the main method
+
+
 def catch_exceptions(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
@@ -30,10 +31,12 @@ def catch_exceptions(func):
         except:
             import traceback
             logging.info(traceback.format_exc())
-            #return schedule.CancelJob  # Cancels the job if there is an exception
+            # return schedule.CancelJob  # Cancels the job if there is an exception
     return wrapper
-    
+
 # Logging decorator for scheduled function
+
+
 def with_logging(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
@@ -41,6 +44,7 @@ def with_logging(func):
         func(*args, **kwargs)
         logging.info('LOG: Job "%s" completed' % func.__name__)
     return wrapper
+
 
 @catch_exceptions
 @with_logging
@@ -51,7 +55,7 @@ def main():
     Access each RentFaster.ca API page individually and store the results in MySQL. 
 
     Built in data cleaning, duplicate entry checking, database error handling, and scheduling.
-    
+
     """
 
     logging.basicConfig(filename='app.log', filemode='w', level=logging.INFO,
@@ -59,13 +63,9 @@ def main():
 
     logging.info('Start main method')
 
-    emailer.Send(subject = "Rental ETL App main method has started", body = 
-        "Start time: {0} " .format(now.strftime("%Y-%m-%d %H:%M"))     
-        ,attach = True)
+    i = 0  # Loop counter
 
-    i = 0 #Loop counter
-
-    keys = [] # Primary Key List
+    keys = []  # Primary Key List
 
     while True:
 
@@ -73,7 +73,9 @@ def main():
 
             page = str(i)
 
-            url = 'https://www.rentfaster.ca/api/search.json?keywords=&proximity_type=location-proximity&cur_page=' + page + '&beds=&type=&price_range_adv[from]=null&price_range_adv[to]=null&novacancy=0&city_id=1'
+            url = 'https://www.rentfaster.ca/api/search.json?keywords=&proximity_type=location-proximity&cur_page=' + \
+                page + \
+                '&beds=&type=&price_range_adv[from]=null&price_range_adv[to]=null&novacancy=0&city_id=1'
 
             # Access object
             scr = Accessor.Accessor(url)
@@ -86,15 +88,15 @@ def main():
             # We have reached the last page
             if len(listings) == 0:
                 break
-            
+
             # We have not reached the last page
             i += 1
-                
+
             logging.info("Page " + page + " data obtained")
 
             # Connect to the database (exception raised if not connected)
             conn = Database.Database.connect()
-            
+
             for listing in listings:
 
                 try:
@@ -103,7 +105,8 @@ def main():
                     keys.append(listing['ref_id'])
 
                     # Add retrieval date
-                    listing['retrieval_date'] = pd.to_datetime('today').strftime("%m/%d/%Y")
+                    listing['retrieval_date'] = pd.to_datetime(
+                        'today').strftime("%m/%d/%Y")
 
                     # Add position
                     listing['position'] = "active"
@@ -111,24 +114,29 @@ def main():
                     # --- Data Cleaning ---
 
                     if 'sq_feet' in listing:
-                        listing['sq_feet'] = re.sub("[^0-9]", "", listing['sq_feet'])
+                        listing['sq_feet'] = re.sub(
+                            "[^0-9]", "", listing['sq_feet'])
                     else:
                         listing['sq_feet'] = ""
 
                     if 'bedrooms' in listing:
-                        listing['bedrooms'] = listing['bedrooms'].replace('bachelor', "0")
+                        listing['bedrooms'] = listing['bedrooms'].replace(
+                            'bachelor', "0")
                     else:
                         listing['bedrooms'] = "0"
-           
+
                     # Convert the list to a CSV string
                     if 'utilities_included' in listing:
-                        listing['utilities_included'] = ",".join([str(x) for x in listing['utilities_included']]) 
+                        listing['utilities_included'] = ",".join(
+                            [str(x) for x in listing['utilities_included']])
 
-                        # Remove whitespace 
-                        listing['utilities_included'] = listing['utilities_included'].strip()
+                        # Remove whitespace
+                        listing['utilities_included'] = listing['utilities_included'].strip(
+                        )
 
                         # Remove trailing comma
-                        listing['utilities_included'] = listing['utilities_included'].rstrip(',')
+                        listing['utilities_included'] = listing['utilities_included'].rstrip(
+                            ',')
                     else:
                         listing['utilities_included'] = ""
 
@@ -147,25 +155,32 @@ def main():
                     # --- End Data Cleaning ---
 
                     db = Database.Database.db_config()[3]
-                    
+
                     # Instantiate Object
-                    rental = Rental.Rental(listing["ref_id"],listing["userId"], listing["id"] ,listing["title"] ,listing["price"],listing["type"] ,
-                    listing["sq_feet"],listing["availability"],listing["avdate"],listing["location"] ,listing["rented"] ,listing["thumb"] , listing["thumb2"] ,
-                    listing["slide"] , listing["link"] ,listing["latitude"] , listing["longitude"],listing["marker"] ,listing["address"], listing["address_hidden"],  
-                    listing["city"] ,listing["province"] , listing["intro"] , listing["community"] ,listing["quadrant"] , listing["phone"] , listing["phone_2"] ,
-                    listing["preferred_contact"] ,listing["website"], listing["email"] , listing["status"] , listing["bedrooms"] , listing["den"] ,listing["baths"] , 
-                    listing["cats"] , listing["dogs"] ,listing['utilities_included'], listing['position'], listing["retrieval_date"])
+                    rental = Rental.Rental(listing["ref_id"], listing["userId"], listing["id"], listing["title"], listing["price"], listing["type"],
+                                           listing["sq_feet"], listing["availability"], listing["avdate"], listing[
+                                               "location"], listing["rented"], listing["thumb"], listing["thumb2"],
+                                           listing["slide"], listing["link"], listing["latitude"], listing[
+                                               "longitude"], listing["marker"], listing["address"], listing["address_hidden"],
+                                           listing["city"], listing["province"], listing["intro"], listing[
+                                               "community"], listing["quadrant"], listing["phone"], listing["phone_2"],
+                                           listing["preferred_contact"], listing["website"], listing["email"], listing[
+                                               "status"], listing["bedrooms"], listing["den"], listing["baths"],
+                                           listing["cats"], listing["dogs"], listing['utilities_included'], listing['position'], listing["retrieval_date"])
 
                     # Prepare a statement
-                    statement = Database.Database.sql_writer_insert(db, list(rental.__dict__.keys()))
+                    statement = Database.Database.sql_writer_insert(
+                        db, list(rental.__dict__.keys()))
 
-                    Database.Database.insert(conn, rental, statement) # exception NOT raised if data not inserted
+                    # exception NOT raised if data not inserted
+                    Database.Database.insert(conn, rental, statement)
 
                 # Duplicate entry
-                except mysql.connector.errors.IntegrityError as ie: # TODO: Custom raise
+                except mysql.connector.errors.IntegrityError as ie:  # TODO: Custom raise
 
-                    if ie.errno == 1062: # Duplicate entry
-                        statement = Database.Database.sql_writer_update(db, list(rental.__dict__.keys()))
+                    if ie.errno == 1062:  # Duplicate entry
+                        statement = Database.Database.sql_writer_update(
+                            db, list(rental.__dict__.keys()))
                         Database.Database.update(conn, rental, statement)
 
                 except Exception as ex:
@@ -185,18 +200,16 @@ def main():
         finally:
             logging.info("Page complete")
 
-    logging.info("---All API data has been parsed and the database has been updated---")
+    logging.info(
+        "---All API data has been parsed and the database has been updated---")
 
     # Update rental listing status
-    conn = Database.Database.connect() # Connect to the database (exception raised if not connected)
+    # Connect to the database (exception raised if not connected)
+    conn = Database.Database.connect()
 
     Database.Database.key_status(conn, keys)
 
     logging.info("Bon Voyage")
-
-    emailer.Send(subject = "Rental ETL App main method has completed", body = 
-    "End time: {0} " .format(now.strftime("%Y-%m-%d %H:%M"))     
-    ,attach = True)
 
     return 1
 
@@ -204,12 +217,10 @@ def main():
 # Enter the runtime in sys.argv[1]
 if __name__ == "__main__":
 
-    emailer = Email.Email()
-
     # Send log file if the application exits
     def exit_handler():
-        emailer.Send(subject = "Rental ETL App has exited", body = "" 
-        ,attach = True)
+        logging.info('Rental ETL App has exited')
+        print('Rental ETL App has exited')
 
     atexit.register(exit_handler)
 
@@ -237,15 +248,10 @@ if __name__ == "__main__":
 
     sched_time = start_time.strftime("%H:%M")
 
-    emailer.Send(subject = "Rental ETL App has started", body = 
-        "Application start time: {0} " .format(now.strftime("%Y-%m-%d %H:%M")) + "\r\n" +
-        "Application is scheduled to run at: {0}" .format(sched_time)       
-        ,attach = False)
-
     # Run main every day
     schedule.every().day.at(sched_time).do(main)
 
     while True:
-
+        print('Running...')
         schedule.run_pending()
         time.sleep(1)

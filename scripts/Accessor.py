@@ -5,7 +5,7 @@ import requests.exceptions
 
 class Accessor:
 
-    def __init__(self,url):
+    def __init__(self, url):
         self.url = url
 
     def get_json(self):
@@ -25,4 +25,3 @@ class Accessor:
 
         else:
             return r.json()
-
