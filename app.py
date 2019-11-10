@@ -17,6 +17,7 @@ import pandas as pd
 import scripts.Database as Database
 import scripts.Accessor as Accessor
 import scripts.Rental as Rental
+import scripts.Email as Email
 
 
 """ Function wrappers for main() """
@@ -62,6 +63,9 @@ def main():
                         format='%(asctime)s - %(levelname)s - %(message)s')
 
     logging.info('Start main method')
+
+    emailer.Send(subject="Rental ETL App main method has started",
+                 body="Start time: {0} " .format(now.strftime("%Y-%m-%d %H:%M")), attach=True)
 
     i = 0  # Loop counter
 
@@ -211,16 +215,20 @@ def main():
 
     logging.info("Bon Voyage")
 
+    emailer.Send(subject="Rental ETL App main method has completed",
+                 body="End time: {0} " .format(now.strftime("%Y-%m-%d %H:%M")), attach=True)
+
     return 1
 
 
 # Enter the runtime in sys.argv[1]
 if __name__ == "__main__":
 
+    emailer = Email.Email()
+
     # Send log file if the application exits
     def exit_handler():
-        logging.info('Rental ETL App has exited')
-        print('Rental ETL App has exited')
+        emailer.Send(subject="Rental ETL App has exited", body="", attach=True)
 
     atexit.register(exit_handler)
 
@@ -247,6 +255,9 @@ if __name__ == "__main__":
     logging.info("Current time: {0}".format(now.strftime("%Y-%m-%d %H:%M")))
 
     sched_time = start_time.strftime("%H:%M")
+
+    emailer.Send(subject="Rental ETL App has started", body="Application start time: {0} " .format(now.strftime("%Y-%m-%d %H:%M")) + "\r\n" +
+                 "Application is scheduled to run at: {0}" .format(sched_time), attach=False)
 
     # Run main every day
     schedule.every().day.at(sched_time).do(main)
