@@ -16,4 +16,4 @@ requests==2.21.0
 schedule==0.6.0
 six==1.13.0
 urllib3==1.24.2
-yagmail==0.11.214
+yagmail==0.11.224
